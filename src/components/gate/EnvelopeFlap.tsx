@@ -7,13 +7,15 @@ type EnvelopeFlapProps = {
   /** Half of the letter artwork, rendered at 200% width and cropped. */
   image: string;
   ref?: Ref<HTMLDivElement>;
-  /** Ref for the fold shadow overlay, animated by the timeline. */
+  /** Ref for the fold shadow overlay, animated by the gate classes. */
   shadowRef?: Ref<HTMLDivElement>;
 };
 
+// `gate-flap-front` is the static translateZ that keeps the right flap in front
+// of the left one — the open keyframe carries it through the swing.
 const flapClasses = {
   left: "left-0 z-20 origin-left",
-  right: "right-0 z-30 origin-right",
+  right: "right-0 z-30 origin-right gate-flap-front",
 } as const;
 
 const imageClasses = {

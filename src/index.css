@@ -4,3 +4,249 @@
   --color-primary: #240046;
   --color-background: #fefae0;
 }
+
+/* ---------------------------------------------------------------------------
+   Gate choreography.
+
+   The whole envelope sequence is CSS — `useEnvelopeAnimation` only adds these
+   classes with `classList.add`, and reads `animationend` to know when a step is
+   done. Timing of the open sequence, from the click:
+
+     seal off      0.00s → 0.50s
+     flap open     0.20s → 1.20s
+     fold shadows  0.20s → 0.90s
+     flash in      1.20s → 1.32s
+     cover → site  ~1.32s
+     flash out     1.32s → 1.77s
+     site settles  1.32s → 2.12s
+
+   `gate-site-in` is the longest (2.12s), so it owns the "opened" signal. Any
+   change to it has to keep the 62% swap point in step with `gate-cover-hide`.
+--------------------------------------------------------------------------- */
+
+@keyframes gate-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gate-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Intro: loader out, envelope in. */
+
+.gate-loader-out {
+  animation: gate-fade-out 0.5s ease-out forwards;
+}
+
+.gate-overlay-in {
+  animation: gate-fade-in 0.6s ease-out 0.1s forwards;
+}
+
+/* 1. Wax seal slides off to the right. */
+
+@keyframes gate-seal-off {
+  to {
+    transform: translateX(120px);
+    opacity: 0;
+  }
+}
+
+.gate-seal-out {
+  animation: gate-seal-off 0.5s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+  pointer-events: none;
+}
+
+/* 2. Flap swings open. `translateZ(3px)` sits in both frames — it is what keeps
+   the right flap in front of the left one, so it must survive the tween. */
+
+@keyframes gate-flap-open {
+  from {
+    transform: translateZ(3px);
+  }
+  to {
+    transform: translateZ(3px) rotateY(30deg) translateX(5px);
+  }
+}
+
+.gate-flap-front {
+  transform: translateZ(3px);
+}
+
+.gate-flap-out {
+  animation: gate-flap-open 1s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
+}
+
+/* 3. Shadows deepen along the fold. */
+
+@keyframes gate-shadow-in {
+  to {
+    opacity: 0.3;
+  }
+}
+
+.gate-shadow-out {
+  animation: gate-shadow-in 0.7s ease-out 0.2s forwards;
+}
+
+/* 4. + 6. Flash masks the cover → site swap, then clears. */
+
+@keyframes gate-flash {
+  0% {
+    opacity: 0;
+    animation-timing-function: ease-in;
+  }
+  21% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.gate-flash-run {
+  animation: gate-flash 0.57s linear 1.2s forwards;
+}
+
+/* 5. Cover drops while the screen is white. Stepped inside the animation rather
+   than run off a timer, so it cannot drift from the flash. */
+
+@keyframes gate-cover-out {
+  0%,
+  62% {
+    visibility: visible;
+  }
+  62.1%,
+  100% {
+    visibility: hidden;
+  }
+}
+
+.gate-cover-hide {
+  animation: gate-cover-out 2.12s linear forwards;
+}
+
+/* The site behind the gate: hidden until the swap, then settles out of scale. */
+
+.gate-site {
+  opacity: 0;
+}
+
+@keyframes gate-site-reveal {
+  0%,
+  62% {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  62.1% {
+    opacity: 1;
+    transform: scale(1.03);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.gate-site-in {
+  animation: gate-site-reveal 2.12s linear forwards;
+}
+
+/* Affordance on the seal: a slow breathe plus a hint under it. The pulse lives
+   on the seal image, not the button — the button owns its own hover transform. */
+
+@keyframes gate-seal-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+.gate-seal-pulse {
+  animation: gate-seal-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes gate-hint-rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gate-hint-in {
+  animation: gate-hint-rise 0.6s ease-out 1s forwards;
+}
+
+.gate-hint-out {
+  animation: gate-fade-out 0.3s ease-out forwards;
+}
+
+/* End states, applied directly when motion is not wanted. */
+
+.gate-overlay-instant {
+  opacity: 1;
+}
+
+.gate-loader-instant {
+  opacity: 0;
+}
+
+.gate-cover-instant {
+  visibility: hidden;
+}
+
+.gate-site-instant {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate-loader-out,
+  .gate-overlay-in,
+  .gate-seal-out,
+  .gate-flap-out,
+  .gate-shadow-out,
+  .gate-flash-run,
+  .gate-cover-hide,
+  .gate-site-in,
+  .gate-seal-pulse,
+  .gate-hint-in,
+  .gate-hint-out {
+    animation: none !important;
+  }
+
+  /* Without the animation these need their end state spelled out. */
+  .gate-overlay-in {
+    opacity: 1;
+  }
+
+  .gate-loader-out {
+    opacity: 0;
+  }
+
+  .gate-hint-in {
+    opacity: 1;
+  }
+
+  .gate-hint-out {
+    opacity: 0;
+  }
+}

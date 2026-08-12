@@ -12,6 +12,8 @@ type EnvelopeCoverProps = {
   onOpen: () => void;
   /** False while the loader is still up, so the seal can't be clicked early. */
   isInteractive: boolean;
+  /** True once the open sequence has started — drops the seal's idle cues. */
+  isOpening: boolean;
   overlayRef: Ref<HTMLDivElement>;
   coverRef: Ref<HTMLDivElement>;
   leftFlapRef: Ref<HTMLDivElement>;
@@ -24,13 +26,14 @@ type EnvelopeCoverProps = {
 
 /**
  * Pure visuals for the gate: two flaps, the wax seal, and the flash layer.
- * Owns no state — the timeline drives everything through the refs, including the
- * opacity that keeps this hidden until the images are decoded.
- * Pinned to the viewport at the same width as the site column.
+ * Owns no state — the animation hook drives everything by adding classes to
+ * these refs, including the opacity that keeps this hidden until the images are
+ * decoded. Pinned to the viewport at the same width as the site column.
  */
 const EnvelopeCover = ({
   onOpen,
   isInteractive,
+  isOpening,
   overlayRef,
   coverRef,
   leftFlapRef,
@@ -63,6 +66,7 @@ const EnvelopeCover = ({
         <WaxButton
           onClick={onOpen}
           disabled={!isInteractive}
+          isOpening={isOpening}
           ref={sealRef}
         />
       </div>

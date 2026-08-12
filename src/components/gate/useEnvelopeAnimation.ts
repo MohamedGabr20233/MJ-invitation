@@ -1,13 +1,13 @@
 // components/gate/useEnvelopeAnimation.ts
 
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { useCallback, useEffect, useRef, type RefObject } from "react";
+
+import { prefersReducedMotion } from "../../lib/motion";
 
 type ElementRef = RefObject<HTMLElement | null>;
 
 export type EnvelopeRefs = {
-  /** Overlay root — tween scope and owner of the 3d perspective. */
+  /** Overlay root — owns the 3d perspective and the intro fade. */
   overlay: RefObject<HTMLDivElement | null>;
   /** Loading screen shown until the gate images are decoded. */
   loader: ElementRef;
@@ -34,17 +34,40 @@ type EnvelopeOptions = {
   onOpened: () => void;
 };
 
-const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const addClass = (ref: ElementRef, ...names: string[]) =>
+  ref.current?.classList.add(...names);
 
 /**
- * Owns the whole gate choreography: the intro fade from loader to envelope, and
- * the paused open-the-gate timeline behind `open()`.
+ * Fires `onEnd` when `element`'s own animation finishes, once. `animationend`
+ * bubbles, so the target check keeps a child's animation — the seal pulse, the
+ * hint — from ending the step early. Returns the teardown.
  */
-export const useEnvelopeAnimation = (refs: EnvelopeRefs, { isReady, onIntroDone, onOpened }: EnvelopeOptions) => {
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
-  const hasPlayedIntroRef = useRef(false);
+const onOwnAnimationEnd = (element: HTMLElement, onEnd: () => void) => {
+  const handleEnd = (event: AnimationEvent) => {
+    if (event.target !== element) return;
 
-  // Kept in refs so the timelines never close over stale callbacks.
+    element.removeEventListener("animationend", handleEnd);
+    onEnd();
+  };
+
+  element.addEventListener("animationend", handleEnd);
+
+  return () => element.removeEventListener("animationend", handleEnd);
+};
+
+/**
+ * Owns the gate choreography. The motion itself is CSS (see the gate block in
+ * index.css) — this only adds the classes that start each step and listens for
+ * the last `animationend` to report back.
+ */
+export const useEnvelopeAnimation = (
+  refs: EnvelopeRefs,
+  { isReady, onIntroDone, onOpened }: EnvelopeOptions,
+) => {
+  const hasPlayedIntroRef = useRef(false);
+  const hasOpenedRef = useRef(false);
+
+  // Kept in refs so the listeners never close over stale callbacks.
   const onIntroDoneRef = useRef(onIntroDone);
   const onOpenedRef = useRef(onOpened);
 
@@ -52,91 +75,6 @@ export const useEnvelopeAnimation = (refs: EnvelopeRefs, { isReady, onIntroDone,
     onIntroDoneRef.current = onIntroDone;
     onOpenedRef.current = onOpened;
   }, [onIntroDone, onOpened]);
-
-  useGSAP(
-    () => {
-      // The envelope stays invisible until its images are decoded.
-      gsap.set(refs.overlay.current, { opacity: 0 });
-
-      // Right flap always sits slightly in front of the left one.
-      gsap.set(refs.rightFlap.current, { z: 3, zIndex: 30, force3D: true });
-
-      gsap.set(refs.site.current, { opacity: 0, scale: 1.03 });
-      gsap.set(refs.flash.current, { opacity: 0 });
-
-      const tl = gsap.timeline({
-        paused: true,
-        onComplete: () => onOpenedRef.current(),
-      });
-
-      // 1. Wax seal slides off to the right.
-      tl.to(
-        refs.seal.current,
-        {
-          x: 120,
-          opacity: 0,
-          duration: 0.5,
-          ease: "power2.inOut",
-          pointerEvents: "none",
-        },
-        0,
-      );
-
-      // 2. Flap swings open — z stays at 3, don't touch it here.
-      tl.to(
-        refs.rightFlap.current,
-        {
-          rotateY: 30,
-          x: 5,
-          duration: 1,
-          ease: "power3.inOut",
-        },
-        0.2,
-      );
-
-      // 3. Shadows deepen along the fold.
-      tl.to(
-        [refs.leftShadow.current, refs.rightShadow.current],
-        {
-          opacity: 0.3,
-          duration: 0.7,
-          ease: "power2.out",
-        },
-        0.2,
-      );
-
-      // 4. Flash masks the swap.
-      tl.to(refs.flash.current, {
-        opacity: 1,
-        duration: 0.12,
-        ease: "power2.in",
-      });
-
-      // 5. Drop the cover and bring the site in while the screen is white.
-      tl.set(refs.cover.current, { display: "none" });
-      tl.set(refs.site.current, { opacity: 1 });
-
-      // 6. Fade the flash out as the site settles.
-      tl.to(refs.flash.current, {
-        opacity: 0,
-        duration: 0.45,
-        ease: "power2.out",
-      });
-
-      tl.to(
-        refs.site.current,
-        {
-          scale: 1,
-          duration: 0.8,
-          ease: "power2.out",
-        },
-        "<",
-      );
-
-      timelineRef.current = tl;
-    },
-    { scope: refs.overlay },
-  );
 
   // Loader → envelope, once the images are decoded. Lives in an effect rather
   // than an exported callback: reading `refs.x.current` inside a useCallback
@@ -146,52 +84,54 @@ export const useEnvelopeAnimation = (refs: EnvelopeRefs, { isReady, onIntroDone,
     hasPlayedIntroRef.current = true;
 
     if (prefersReducedMotion()) {
-      gsap.set(refs.overlay.current, { opacity: 1 });
-      gsap.set(refs.loader.current, { opacity: 0 });
+      addClass(refs.overlay, "gate-overlay-instant");
+      addClass(refs.loader, "gate-loader-instant");
       onIntroDoneRef.current();
       return;
     }
 
-    const intro = gsap.timeline({
-      onComplete: () => onIntroDoneRef.current(),
-    });
+    addClass(refs.loader, "gate-loader-out");
+    addClass(refs.overlay, "gate-overlay-in");
 
-    intro.to(refs.loader.current, {
-      opacity: 0,
-      duration: 0.5,
-      ease: "power2.out",
-    });
+    // The overlay fade is the longer of the two, so it ends the intro.
+    const overlay = refs.overlay.current;
+    if (!overlay) {
+      onIntroDoneRef.current();
+      return;
+    }
 
-    intro.to(
-      refs.overlay.current,
-      {
-        opacity: 1,
-        duration: 0.6,
-        ease: "power2.out",
-      },
-      0.1,
-    );
-
-    return () => {
-      intro.kill();
-    };
+    return onOwnAnimationEnd(overlay, () => onIntroDoneRef.current());
   }, [isReady, refs]);
 
   const open = useCallback(() => {
-    const tl = timelineRef.current;
-
     // Ignore clicks once the sequence has started.
-    if (!tl || tl.isActive() || tl.progress() > 0) return;
+    if (hasOpenedRef.current) return;
+    hasOpenedRef.current = true;
 
     if (prefersReducedMotion()) {
-      // Jump to the end state with events suppressed, then report once.
-      tl.progress(1, true);
+      addClass(refs.cover, "gate-cover-instant");
+      addClass(refs.site, "gate-site-instant");
       onOpenedRef.current();
       return;
     }
 
-    tl.play();
-  }, []);
+    addClass(refs.seal, "gate-seal-out");
+    addClass(refs.rightFlap, "gate-flap-out");
+    addClass(refs.leftShadow, "gate-shadow-out");
+    addClass(refs.rightShadow, "gate-shadow-out");
+    addClass(refs.flash, "gate-flash-run");
+    addClass(refs.cover, "gate-cover-hide");
+    addClass(refs.site, "gate-site-in");
+
+    // The site reveal runs longest, so it marks the gate as open.
+    const site = refs.site.current;
+    if (!site) {
+      onOpenedRef.current();
+      return;
+    }
+
+    onOwnAnimationEnd(site, () => onOpenedRef.current());
+  }, [refs]);
 
   return { open };
 };

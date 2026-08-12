@@ -45,6 +45,7 @@ type GateProps = {
 const GateStage = ({ children }: GateProps) => {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isLoaderMounted, setIsLoaderMounted] = useState(true);
+  const [isOpening, setIsOpening] = useState(false);
 
   const { isReady, progress } = useGateAssets(GATE_IMAGE_SOURCES);
 
@@ -89,6 +90,12 @@ const GateStage = ({ children }: GateProps) => {
     onOpened: handleOpened,
   });
 
+  // Kicks off the sequence and drops the seal's idle pulse and hint.
+  const handleOpen = useCallback(() => {
+    setIsOpening(true);
+    open();
+  }, [open]);
+
   // No scrolling the site while it is still behind the cover.
   useEffect(() => {
     if (isRevealed) return;
@@ -104,14 +111,19 @@ const GateStage = ({ children }: GateProps) => {
   return (
     <>
       {/* `inert` keeps the gated site out of tab order and off screen readers */}
-      <div ref={siteRef} inert={!isRevealed}>
+      <div
+        ref={siteRef}
+        inert={!isRevealed}
+        className={isRevealed ? undefined : "gate-site"}
+      >
         {children}
       </div>
 
       {!isRevealed && (
         <EnvelopeCover
-          onOpen={open}
+          onOpen={handleOpen}
           isInteractive={isReady}
+          isOpening={isOpening}
           overlayRef={overlayRef}
           coverRef={coverRef}
           leftFlapRef={leftFlapRef}
