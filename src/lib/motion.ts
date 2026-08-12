@@ -1,7 +1,5 @@
 // lib/motion.ts
 
-import { useSyncExternalStore } from "react";
-
 const QUERY = "(prefers-reduced-motion: reduce)";
 
 let mediaQuery: MediaQueryList | null = null;
@@ -11,20 +9,9 @@ const getMediaQuery = () => {
   return mediaQuery;
 };
 
-/** Imperative read, for code outside the render cycle (GSAP callbacks). */
-export const prefersReducedMotion = () => getMediaQuery().matches;
-
-const subscribe = (onChange: () => void) => {
-  const query = getMediaQuery();
-  query.addEventListener("change", onChange);
-
-  return () => query.removeEventListener("change", onChange);
-};
-
 /**
- * Reactive version of the same flag. Read through the store rather than an
- * effect, so no synchronous setState is needed and a mid-visit OS change is
- * picked up.
+ * Read imperatively rather than through a hook: the gate needs this inside
+ * effects, where it also has to skip waiting on `animationend` — that event
+ * never fires once the reduced-motion media query turns the animation off.
  */
-export const useReducedMotion = () =>
-  useSyncExternalStore(subscribe, prefersReducedMotion, () => false);
+export const prefersReducedMotion = () => getMediaQuery().matches;

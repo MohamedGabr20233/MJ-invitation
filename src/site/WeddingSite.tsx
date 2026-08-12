@@ -1,6 +1,6 @@
 // site/WeddingSite.tsx
 
-import VideoSection from "./sections/VideoSection";
+import HeroSection from "./sections/HeroSection";
 
 /**
  * The full website behind the gate. Owns the site column width, so the gate
@@ -11,9 +11,9 @@ import VideoSection from "./sections/VideoSection";
  */
 const WeddingSite = () => {
   return (
-    <main className="mx-auto w-full bg-[#fffbed] lg:max-w-150">
+    <main className="mx-auto w-full bg-[#fffbed] md:max-w-150">
       {/* the video section */}
-      <VideoSection />
+      <HeroSection />
     </main>
   );
 };

@@ -22,12 +22,12 @@
   --color-primary: #240046;
   --color-background: #fefae0;
 
-  /* `font-manrope` / `font-alex-brush`, plus `font-sans` and `font-display`
-     so unclassed body copy and headings pick these up by default. */
+  /* `font-manrope` / `font-alex`, plus `font-sans` and `font-display` so
+     unclassed body copy and headings pick these up by default. */
   --font-manrope: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-alex: "Alex Brush", ui-serif, cursive;
   --font-sans: var(--font-manrope);
-  --font-display: var(--font-alex-brush);
+  --font-display: var(--font-alex);
 }
 
 body {
@@ -37,7 +37,7 @@ body {
 /* ---------------------------------------------------------------------------
    Gate choreography.
 
-   The whole envelope sequence is CSS — `useEnvelopeAnimation` only adds these
+   The whole envelope sequence is CSS — `useGateChoreography` only adds these
    classes with `classList.add`, and reads `animationend` to know when a step is
    done. Timing of the open sequence, from the click:
 
@@ -293,3 +293,5 @@ body {
     opacity: 0;
   }
 }
+
+/* ♦ */
