@@ -1,4 +1,3 @@
-import React from "react";
 import { INVITATION_DATE } from "../../constants";
 
 const InviteDate = () => {
