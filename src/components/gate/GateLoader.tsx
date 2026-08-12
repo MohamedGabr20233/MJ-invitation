@@ -2,9 +2,9 @@
 
 import type { Ref } from "react";
 
+import { useGateStore } from "../../store/gateStore";
+
 type GateLoaderProps = {
-  /** 0 → 1. */
-  progress: number;
   ref?: Ref<HTMLDivElement>;
 };
 
@@ -12,8 +12,8 @@ type GateLoaderProps = {
  * Sits above the envelope until the gate images are decoded, so the first thing
  * a phone paints is this and not a half-loaded letter.
  */
-const GateLoader = ({ progress, ref }: GateLoaderProps) => {
-  const percent = Math.round(progress * 100);
+const GateLoader = ({ ref }: GateLoaderProps) => {
+  const percent = Math.round(useGateStore((state) => state.progress) * 100);
 
   return (
     <div

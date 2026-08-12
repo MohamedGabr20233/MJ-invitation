@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { useIsSiteVisible } from "../../lib/siteReveal";
+import { useIsSiteVisible } from "../../store/gateStore";
 
 /**
  * Full-height looping clip. Autoplay needs muted + playsInline on iOS.

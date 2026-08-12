@@ -9,11 +9,6 @@ import { GATE_IMAGES } from "./gateAssets";
 // Refs are passed one prop each, not bundled in an object — reading
 // `props.refs.x` in JSX counts as a ref access during render.
 type EnvelopeCoverProps = {
-  onOpen: () => void;
-  /** False while the loader is still up, so the seal can't be clicked early. */
-  isInteractive: boolean;
-  /** True once the open sequence has started — drops the seal's idle cues. */
-  isOpening: boolean;
   overlayRef: Ref<HTMLDivElement>;
   coverRef: Ref<HTMLDivElement>;
   leftFlapRef: Ref<HTMLDivElement>;
@@ -26,14 +21,11 @@ type EnvelopeCoverProps = {
 
 /**
  * Pure visuals for the gate: two flaps, the wax seal, and the flash layer.
- * Owns no state — the animation hook drives everything by adding classes to
+ * Owns no state — the choreography hook drives everything by adding classes to
  * these refs, including the opacity that keeps this hidden until the images are
  * decoded. Pinned to the viewport at the same width as the site column.
  */
 const EnvelopeCover = ({
-  onOpen,
-  isInteractive,
-  isOpening,
   overlayRef,
   coverRef,
   leftFlapRef,
@@ -63,12 +55,7 @@ const EnvelopeCover = ({
           shadowRef={rightShadowRef}
         />
 
-        <WaxButton
-          onClick={onOpen}
-          disabled={!isInteractive}
-          isOpening={isOpening}
-          ref={sealRef}
-        />
+        <WaxButton ref={sealRef} />
       </div>
 
       {/* White flash that hides the cover → site swap */}

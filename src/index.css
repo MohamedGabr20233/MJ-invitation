@@ -1,8 +1,37 @@
 @import "tailwindcss";
 
+/* ── Manrope variable font ── */
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/Manrope/Manrope-VariableFont_wght.ttf") format("truetype");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Alex Brush ── */
+@font-face {
+  font-family: "Alex Brush";
+  src: url("/fonts/Alex_Brush/AlexBrush-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-primary: #240046;
   --color-background: #fefae0;
+
+  /* `font-manrope` / `font-alex-brush`, plus `font-sans` and `font-display`
+     so unclassed body copy and headings pick these up by default. */
+  --font-manrope: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-alex: "Alex Brush", ui-serif, cursive;
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-alex-brush);
+}
+
+body {
+  font-family: var(--font-sans);
 }
 
 /* ---------------------------------------------------------------------------
@@ -28,6 +57,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -37,6 +67,7 @@
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -73,6 +104,7 @@
   from {
     transform: translateZ(3px);
   }
+
   to {
     transform: translateZ(3px) rotateY(30deg) translateX(5px);
   }
@@ -105,10 +137,12 @@
     opacity: 0;
     animation-timing-function: ease-in;
   }
+
   21% {
     opacity: 1;
     animation-timing-function: ease-out;
   }
+
   100% {
     opacity: 0;
   }
@@ -122,10 +156,12 @@
    than run off a timer, so it cannot drift from the flash. */
 
 @keyframes gate-cover-out {
+
   0%,
   62% {
     visibility: visible;
   }
+
   62.1%,
   100% {
     visibility: hidden;
@@ -143,16 +179,19 @@
 }
 
 @keyframes gate-site-reveal {
+
   0%,
   62% {
     opacity: 0;
     transform: scale(1.03);
   }
+
   62.1% {
     opacity: 1;
     transform: scale(1.03);
     animation-timing-function: ease-out;
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -167,10 +206,12 @@
    on the seal image, not the button — the button owns its own hover transform. */
 
 @keyframes gate-seal-breathe {
+
   0%,
   100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.04);
   }
@@ -185,6 +226,7 @@
     opacity: 0;
     transform: translateY(4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -219,6 +261,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .gate-loader-out,
   .gate-overlay-in,
   .gate-seal-out,

@@ -1,39 +1,13 @@
 // components/gate/InvitationGate.tsx
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
-import { SiteVisibleContext } from "../../lib/siteReveal";
+import { useGateStore, wasGateAlreadyOpened } from "../../store/gateStore";
 import EnvelopeCover from "./EnvelopeCover";
 import GateLoader from "./GateLoader";
 import { GATE_IMAGE_SOURCES } from "./gateAssets";
-import { useEnvelopeAnimation } from "./useEnvelopeAnimation";
 import { useGateAssets } from "./useGateAssets";
-
-const STORAGE_KEY = "invite:opened";
-
-// Storage access is wrapped — Safari private mode throws on sessionStorage.
-const hasOpenedGate = () => {
-  try {
-    return sessionStorage.getItem(STORAGE_KEY) === "1";
-  } catch {
-    return false;
-  }
-};
-
-const markGateOpened = () => {
-  try {
-    sessionStorage.setItem(STORAGE_KEY, "1");
-  } catch {
-    // Non-fatal: the gate just shows again on the next load.
-  }
-};
+import { useGateChoreography } from "./useGateChoreography";
 
 type GateProps = {
   children: ReactNode;
@@ -41,15 +15,13 @@ type GateProps = {
 
 /**
  * Envelope gate in front of the site. Holds the refs, waits on the gate images,
- * locks scrolling while closed, and unmounts each layer once it is done.
+ * locks scrolling while closed, and unmounts each layer once its phase is past.
+ * All state lives in the gate store — nothing is threaded through props.
  */
 const GateStage = ({ children }: GateProps) => {
-  const [isRevealed, setIsRevealed] = useState(false);
-  const [isLoaderMounted, setIsLoaderMounted] = useState(true);
-  const [isOpening, setIsOpening] = useState(false);
-  const [isSiteVisible, setIsSiteVisible] = useState(false);
+  const phase = useGateStore((state) => state.phase);
 
-  const { isReady, progress } = useGateAssets(GATE_IMAGE_SOURCES);
+  const isRevealed = phase === "revealed";
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -78,28 +50,8 @@ const GateStage = ({ children }: GateProps) => {
     [],
   );
 
-  const handleIntroDone = useCallback(() => setIsLoaderMounted(false), []);
-
-  const handleSiteVisible = useCallback(() => setIsSiteVisible(true), []);
-
-  const handleOpened = useCallback(() => {
-    setIsRevealed(true);
-    markGateOpened();
-  }, []);
-
-  // The hook runs the loader → envelope cross-fade itself once `isReady` flips.
-  const { open } = useEnvelopeAnimation(refs, {
-    isReady,
-    onIntroDone: handleIntroDone,
-    onSiteVisible: handleSiteVisible,
-    onOpened: handleOpened,
-  });
-
-  // Kicks off the sequence and drops the seal's idle pulse and hint.
-  const handleOpen = useCallback(() => {
-    setIsOpening(true);
-    open();
-  }, [open]);
+  useGateAssets(GATE_IMAGE_SOURCES);
+  useGateChoreography(refs);
 
   // No scrolling the site while it is still behind the cover.
   useEffect(() => {
@@ -121,15 +73,11 @@ const GateStage = ({ children }: GateProps) => {
         inert={!isRevealed}
         className={isRevealed ? undefined : "gate-site"}
       >
-        {/* Media behind the gate waits for this before it starts */}
-        <SiteVisibleContext value={isSiteVisible}>{children}</SiteVisibleContext>
+        {children}
       </div>
 
       {!isRevealed && (
         <EnvelopeCover
-          onOpen={handleOpen}
-          isInteractive={isReady}
-          isOpening={isOpening}
           overlayRef={overlayRef}
           coverRef={coverRef}
           leftFlapRef={leftFlapRef}
@@ -141,17 +89,20 @@ const GateStage = ({ children }: GateProps) => {
         />
       )}
 
-      {isLoaderMounted && <GateLoader progress={progress} ref={loaderRef} />}
+      {(phase === "loading" || phase === "intro") && (
+        <GateLoader ref={loaderRef} />
+      )}
     </>
   );
 };
 
 /**
- * Decides whether the gate runs at all. Once opened in this tab, later loads
- * go straight to the site — no loader, no envelope, no GSAP, no scroll lock.
+ * Decides whether the gate runs at all. Once opened in this tab, later loads go
+ * straight to the site — no loader, no envelope, no image preload, no scroll
+ * lock. The store already starts at `revealed` in that case.
  */
 const InvitationGate = ({ children }: GateProps) => {
-  const [wasAlreadyOpened] = useState(hasOpenedGate);
+  const [wasAlreadyOpened] = useState(wasGateAlreadyOpened);
 
   if (wasAlreadyOpened) return <>{children}</>;
 
