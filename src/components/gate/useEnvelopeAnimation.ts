@@ -40,10 +40,7 @@ const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: r
  * Owns the whole gate choreography: the intro fade from loader to envelope, and
  * the paused open-the-gate timeline behind `open()`.
  */
-export const useEnvelopeAnimation = (
-  refs: EnvelopeRefs,
-  { isReady, onIntroDone, onOpened }: EnvelopeOptions,
-) => {
+export const useEnvelopeAnimation = (refs: EnvelopeRefs, { isReady, onIntroDone, onOpened }: EnvelopeOptions) => {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const hasPlayedIntroRef = useRef(false);
 
@@ -196,5 +193,5 @@ export const useEnvelopeAnimation = (
     tl.play();
   }, []);
 
-  return { playIntro, open };
+  return { open };
 };

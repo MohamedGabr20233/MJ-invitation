@@ -82,15 +82,12 @@ const GateStage = ({ children }: GateProps) => {
     markGateOpened();
   }, []);
 
-  const { playIntro, open } = useEnvelopeAnimation(refs, {
+  // The hook runs the loader → envelope cross-fade itself once `isReady` flips.
+  const { open } = useEnvelopeAnimation(refs, {
+    isReady,
     onIntroDone: handleIntroDone,
     onOpened: handleOpened,
   });
-
-  // Images decoded → cross-fade the loader out and the envelope in.
-  useEffect(() => {
-    if (isReady) playIntro();
-  }, [isReady, playIntro]);
 
   // No scrolling the site while it is still behind the cover.
   useEffect(() => {
