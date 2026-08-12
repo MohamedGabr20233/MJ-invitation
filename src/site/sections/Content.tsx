@@ -53,16 +53,16 @@ const Content = () => {
       </h1>
 
       {/* second paragraph */}
-      <p ref={inviteRef} className="uppercase font-manrope text-xs tracking-[.3rem] text-white/90 pt-6 text-center leading-6  max-w-82 ">
+      <p ref={inviteRef} className="uppercase font-manrope text-xs tracking-[0.2rem] text-white/90 pt-6 text-center leading-6  max-w-70 ">
         invite you to celebrate their beginning of their
       </p>
 
-      <p className=" reveal opacity-0 px-4 text-center w-fit font-alex text-white text-5xl pt-2 relative">
+      <p className=" reveal opacity-0 px-4 text-center w-fit font-alex text-white text-4xl pt-2 relative">
         forever <span className="absolute text-xl top-1 inset-e-0">♥</span>
       </p>
 
       {/* the date */}
-      <div className="   text-white w-full text-lg  leading-0 flex-col flex items-center font-manrope tracking-widest justify-around">
+      <div className="   text-white w-full text-lg  leading-0 flex-col flex items-center font-manrope  justify-around">
         <div className="w-full reveal translate-y-7 opacity-0 ">
           <HeroSplitter />
         </div>
@@ -76,8 +76,11 @@ const Content = () => {
         </div>
       </div>
 
-      <p className="  reveal opacity-0 px-4 text-center w-fit font-alex text-white text-3xl placeholder-taupe-100 tracking-wider pt-2 relative">A new chapter begins</p>
+      <p className="  reveal opacity-0 px-4 text-center w-fit font-alex text-white text-xl placeholder-taupe-100 tracking-wider pt-2 relative">A new chapter begins</p>
 
+      <p ref={inviteRef} className="uppercase font-manrope text-xs tracking-[.3rem] text-white/90 pt-6 text-center leading-6  max-w-82 ">
+        invite you to celebrate their beginning of their
+      </p>
       {/* at the bottom scroll section */}
 
       <div className="reveal overflow-hidden mt-auto  text-center mb-10 font-manrope text-white tracking-widest">
