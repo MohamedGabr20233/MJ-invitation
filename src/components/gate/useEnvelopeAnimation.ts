@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, type RefObject } from "react";
 
 import { prefersReducedMotion } from "../../lib/motion";
+import { GATE_SWAP_MS } from "./gateTimings";
 
 type ElementRef = RefObject<HTMLElement | null>;
 
@@ -30,6 +31,8 @@ type EnvelopeOptions = {
   isReady: boolean;
   /** Images are in and the envelope has faded up — the loader can go. */
   onIntroDone: () => void;
+  /** The cover just dropped, so the site is on screen — media can start. */
+  onSiteVisible: () => void;
   /** The site is fully revealed. */
   onOpened: () => void;
 };
@@ -62,19 +65,24 @@ const onOwnAnimationEnd = (element: HTMLElement, onEnd: () => void) => {
  */
 export const useEnvelopeAnimation = (
   refs: EnvelopeRefs,
-  { isReady, onIntroDone, onOpened }: EnvelopeOptions,
+  { isReady, onIntroDone, onSiteVisible, onOpened }: EnvelopeOptions,
 ) => {
   const hasPlayedIntroRef = useRef(false);
   const hasOpenedRef = useRef(false);
+  const swapTimerRef = useRef(0);
 
   // Kept in refs so the listeners never close over stale callbacks.
   const onIntroDoneRef = useRef(onIntroDone);
+  const onSiteVisibleRef = useRef(onSiteVisible);
   const onOpenedRef = useRef(onOpened);
 
   useEffect(() => {
     onIntroDoneRef.current = onIntroDone;
+    onSiteVisibleRef.current = onSiteVisible;
     onOpenedRef.current = onOpened;
-  }, [onIntroDone, onOpened]);
+  }, [onIntroDone, onSiteVisible, onOpened]);
+
+  useEffect(() => () => window.clearTimeout(swapTimerRef.current), []);
 
   // Loader → envelope, once the images are decoded. Lives in an effect rather
   // than an exported callback: reading `refs.x.current` inside a useCallback
@@ -111,6 +119,7 @@ export const useEnvelopeAnimation = (
     if (prefersReducedMotion()) {
       addClass(refs.cover, "gate-cover-instant");
       addClass(refs.site, "gate-site-instant");
+      onSiteVisibleRef.current();
       onOpenedRef.current();
       return;
     }
@@ -122,6 +131,14 @@ export const useEnvelopeAnimation = (
     addClass(refs.flash, "gate-flash-run");
     addClass(refs.cover, "gate-cover-hide");
     addClass(refs.site, "gate-site-in");
+
+    // The cover drop is a step inside the reveal animation, so there is no event
+    // for it — this timer is the cue for media behind the gate. Fired from the
+    // same click that started the animation, so it stays in step with it.
+    swapTimerRef.current = window.setTimeout(
+      () => onSiteVisibleRef.current(),
+      GATE_SWAP_MS,
+    );
 
     // The site reveal runs longest, so it marks the gate as open.
     const site = refs.site.current;

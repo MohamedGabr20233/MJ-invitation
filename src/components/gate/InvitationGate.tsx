@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 
+import { SiteVisibleContext } from "../../lib/siteReveal";
 import EnvelopeCover from "./EnvelopeCover";
 import GateLoader from "./GateLoader";
 import { GATE_IMAGE_SOURCES } from "./gateAssets";
@@ -46,6 +47,7 @@ const GateStage = ({ children }: GateProps) => {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isLoaderMounted, setIsLoaderMounted] = useState(true);
   const [isOpening, setIsOpening] = useState(false);
+  const [isSiteVisible, setIsSiteVisible] = useState(false);
 
   const { isReady, progress } = useGateAssets(GATE_IMAGE_SOURCES);
 
@@ -78,6 +80,8 @@ const GateStage = ({ children }: GateProps) => {
 
   const handleIntroDone = useCallback(() => setIsLoaderMounted(false), []);
 
+  const handleSiteVisible = useCallback(() => setIsSiteVisible(true), []);
+
   const handleOpened = useCallback(() => {
     setIsRevealed(true);
     markGateOpened();
@@ -87,6 +91,7 @@ const GateStage = ({ children }: GateProps) => {
   const { open } = useEnvelopeAnimation(refs, {
     isReady,
     onIntroDone: handleIntroDone,
+    onSiteVisible: handleSiteVisible,
     onOpened: handleOpened,
   });
 
@@ -116,7 +121,8 @@ const GateStage = ({ children }: GateProps) => {
         inert={!isRevealed}
         className={isRevealed ? undefined : "gate-site"}
       >
-        {children}
+        {/* Media behind the gate waits for this before it starts */}
+        <SiteVisibleContext value={isSiteVisible}>{children}</SiteVisibleContext>
       </div>
 
       {!isRevealed && (
