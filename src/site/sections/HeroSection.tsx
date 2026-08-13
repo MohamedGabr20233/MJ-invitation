@@ -31,9 +31,9 @@ const HeroSection = () => {
   }, [isSiteVisible]);
 
   return (
-    <section className="min-h-screen h-fit w-full ">
+    <section className="min-h-dvh h-fit w-full ">
       {/* the video container */}
-      <div className="w-full min-h-screen h-fit relative flex justify-center" ref={containerRef}>
+      <div className="w-full  min-h-dvh relative flex justify-center" ref={containerRef}>
         {/* the black overlay */}
         <div className="absolute top-0 left-0 w-full h-full z-10 bg-black opacity-50" />
         <video ref={videoRef} src="/dance-nile.mp4" className="absolute top-0 left-0 h-full  w-full object-cover" muted loop playsInline preload="auto" aria-label="Dancing on the Nile" />

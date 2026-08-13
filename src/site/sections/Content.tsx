@@ -34,7 +34,7 @@ const Content = () => {
   }, [isSiteVisible]);
 
   return (
-    <section id="hero" className="w-full relative  max-w-90 z-20 h-full min-h-screen flex items-center  flex-col pt-20 max-sm:pt-10">
+    <section id="hero" className="w-full relative  max-w-90 z-20  flex items-center  flex-col pt-20 max-sm:pt-10">
       {/* the first text */}
 
       <div ref={firstPartRef} className=" translate-y-5 opacity-0">
