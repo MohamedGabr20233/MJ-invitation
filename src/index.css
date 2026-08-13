@@ -34,6 +34,11 @@ body {
   font-family: var(--font-sans);
 }
 
+html {
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+}
+
 /* ---------------------------------------------------------------------------
    Gate choreography.
 
