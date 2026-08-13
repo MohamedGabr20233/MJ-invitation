@@ -37,6 +37,14 @@ body {
 html {
   text-size-adjust: none;
   -webkit-text-size-adjust: none;
+
+  @media (max-width: 450px) {
+    font-size: 90%;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 80%;
+  }
 }
 
 /* ---------------------------------------------------------------------------

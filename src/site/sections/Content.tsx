@@ -32,8 +32,9 @@ const Content = () => {
     // useGSAP reverts its own tweens; the split's wrapper spans are ours to undo.
     return () => invite.revert();
   }, [isSiteVisible]);
+
   return (
-    <section id="hero" className="w-full relative  max-w-90 z-20 h-full flex items-center flex-col pt-20">
+    <section id="hero" className="w-full relative  max-w-90 z-20 h-full min-h-screen flex items-center  flex-col pt-20 max-sm:pt-10">
       {/* the first text */}
 
       <div ref={firstPartRef} className=" translate-y-5 opacity-0">
@@ -79,7 +80,7 @@ const Content = () => {
 
       {/* at the bottom scroll section */}
 
-      <div className="reveal overflow-hidden mt-auto  text-center mb-10 font-manrope text-white tracking-widest">
+      <div className="reveal pt-20 overflow-hidden mt-auto  text-center mb-10 font-manrope text-white tracking-widest">
         <div className="opacity-0   scrollAnimation translate-y-4">
           <p> Scroll Down </p>
           {/* arrow down button */}
