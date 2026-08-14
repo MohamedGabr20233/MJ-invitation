@@ -1,4 +1,4 @@
-import { INVITATION_DATE } from "../../constants";
+import { INVITATION_DATE } from "../../../constants";
 
 const InviteDate = () => {
   const { day, month, year } = INVITATION_DATE;

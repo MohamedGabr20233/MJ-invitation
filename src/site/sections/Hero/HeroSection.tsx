@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { useIsSiteVisible } from "../../store/gateStore";
+import { useIsSiteVisible } from "../../../store/gateStore";
 import Content from "./Content";
 
 /**

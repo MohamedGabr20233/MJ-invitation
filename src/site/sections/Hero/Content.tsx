@@ -1,9 +1,9 @@
-import HeroSplitter from "../../components/ui/HeroSplitter";
-import { COUPLES_NAMES } from "../../constants";
+import HeroSplitter from "../../../components/ui/HeroSplitter";
+import { COUPLES_NAMES } from "../../../constants";
 import InviteDate from "./InviteDate";
 import { useRef } from "react";
-import { gsap, useGSAP, SplitText } from "../../lib/gsap";
-import { useIsSiteVisible } from "../../store/gateStore";
+import { gsap, useGSAP, SplitText } from "../../../lib/gsap";
+import { useIsSiteVisible } from "../../../store/gateStore";
 
 const Content = () => {
   const { MALE, FEMALE } = COUPLES_NAMES;

@@ -18,14 +18,37 @@
   font-display: swap;
 }
 
+/* ── Cormorant variable font ── */
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/Cormorant/Cormorant-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/Cormorant/Cormorant-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
   --color-primary: #240046;
   --color-background: #fefae0;
+
+  /* Countdown palette: warm paper ground, deep navy type, warm gold details. */
+  --color-cream: #f7f2ea;
+  --color-ink: #234e70;
+  --color-gold: #c2a377;
 
   /* `font-manrope` / `font-alex`, plus `font-sans` and `font-display` so
      unclassed body copy and headings pick these up by default. */
   --font-manrope: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-alex: "Alex Brush", ui-serif, cursive;
+  --font-cormorant: "Cormorant", ui-serif, Georgia, serif;
   --font-sans: var(--font-manrope);
   --font-display: var(--font-alex);
 }
