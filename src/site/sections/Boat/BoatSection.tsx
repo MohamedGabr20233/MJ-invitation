@@ -14,9 +14,9 @@ const BoatSection = () => {
         <img src="/boat.jpeg" className=" h-full w-full  object-cover mt-10 [clip-path:polygon(0_10%,100%_0,100%_90%,0_100%)]" alt="boat img" />
         {/* the location badge */}
         <div className="absolute  top-0 left-0   rotate-10 w-full">
-          <img src="/location-paper.png" className="w-110   top-0  -translate-x-1/4" alt="location" />
+          <img src="/map-paper.png" className="w-110   top-0  -translate-x-1/4" alt="location" />
           <div className="absolute  left-15  top-26 -rotate-1 max-[300px]:top-17 max-[300px]:left-6  max-[340px]:top-22 max-[340px]:left-12  max-[300px]:text-base text-white text-xl font-cormorant font-bold uppercase">
-            <a className=" px-10 py-5 " href={InvitationLocations.link}>
+            <a className=" px-10 py-5 " target="_blank" href={InvitationLocations.link}>
               {" "}
               OPEN MAP
             </a>
