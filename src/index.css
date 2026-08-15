@@ -35,6 +35,45 @@
   font-display: swap;
 }
 
+/* ── Merriweather variable font ── */
+@font-face {
+  font-family: "Merriweather";
+  src: url("/fonts/Merriweather/Merriweather-VariableFont_opsz,wdth,wght.ttf") format("truetype");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Merriweather";
+  src: url("/fonts/Merriweather/Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf") format("truetype");
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── Times New Roman — `local()` first, so machines that already have it (most
+   Windows and macOS) never download the 340 KB file. ── */
+@font-face {
+  font-family: "Times New Roman";
+  src:
+    local("Times New Roman"),
+    local("TimesNewRomanPSMT"),
+    url("/fonts/Times_New_Roman/TimesNewRoman-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── DecoType Thuluth II — Arabic display face, one weight only ── */
+@font-face {
+  font-family: "Thuluth";
+  src: url("/fonts/Thuluth/Thuluth-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-primary: #240046;
   --color-background: #fefae0;
@@ -49,6 +88,9 @@
   --font-manrope: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-alex: "Alex Brush", ui-serif, cursive;
   --font-cormorant: "Cormorant", ui-serif, Georgia, serif;
+  --font-merriweather: "Merriweather", ui-serif, Georgia, serif;
+  --font-thuluth: "Thuluth", ui-serif, serif;
+  --font-times: "Times New Roman", Times, ui-serif, serif;
   --font-sans: var(--font-manrope);
   --font-display: var(--font-alex);
 }
