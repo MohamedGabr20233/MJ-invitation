@@ -37,7 +37,7 @@ const DetailsSection = () => {
           </div>
           <div className="w-full flex justify-start items-center gap-4 text-start pt-4">
             <Clock className="  h-6 w-6 text-ink" />
-            <p className="font-bold">{INVITATION_DATE.hour12}</p>
+            <p className="font-bold">{INVITATION_DATE.time}</p>
           </div>
 
           <div className="w-full flex justify-start items-center gap-4 text-start pt-4">

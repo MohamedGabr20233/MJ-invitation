@@ -9,7 +9,7 @@ export const INVITATION_DATE = {
   year: 2026,
   hour: 18,
   minute: 0,
-  hour12: "6 pm",
+  time: "6 pm - 9 pm",
 };
 
 export const InvitationLocations = {
