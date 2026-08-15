@@ -1,3 +1,4 @@
+import BoatSection from "./sections/Boat/BoatSection";
 import DetailsSection from "./sections/DetailsSection";
 import HeroSection from "./sections/Hero/HeroSection";
 import TimerSection from "./sections/TimerSection";
@@ -9,6 +10,8 @@ const WeddingSite = () => {
       <HeroSection />
       <TimerSection />
       <DetailsSection />
+      {/* the boat section */}
+      <BoatSection />
     </main>
   );
 };

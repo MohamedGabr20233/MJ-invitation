@@ -5,7 +5,7 @@ import { INVITATION_DATE, InvitationLocations } from "../../constants";
 
 const DetailsSection = () => {
   return (
-    <section id="details" className="flex gap-20  items-center flex-col text-ink  pb-30">
+    <section id="details" className="flex gap-30  items-center flex-col text-ink  pb-20">
       {/* the frame */}
       <DetailsFrame>
         <div className="flex flex-col items-center w-full max-w-[60%] text-center">
