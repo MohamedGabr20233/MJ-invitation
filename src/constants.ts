@@ -27,15 +27,15 @@ export const GAME_CARD_CONTENT = [
     alt: "the groom image",
   },
   {
-    id: 2,
-    value: true,
-    userImage: "/cards/jilan",
-    alt: "the bride image",
-  },
-  {
     id: 3,
     value: false,
     userImage: "/cards/flynn-poster",
     alt: "the funny image",
+  },
+  {
+    id: 2,
+    value: true,
+    userImage: "/cards/jilan",
+    alt: "the bride image",
   },
 ];
