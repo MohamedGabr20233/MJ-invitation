@@ -1,23 +1,9 @@
 // components/gate/EnvelopeCover.tsx
 
-import type { Ref } from "react";
-
+import type { EnvelopeCoverProps } from "../../types";
 import EnvelopeFlap from "./EnvelopeFlap";
 import WaxButton from "./WaxButton";
 import { GATE_IMAGES } from "./gateAssets";
-
-// Refs are passed one prop each, not bundled in an object — reading
-// `props.refs.x` in JSX counts as a ref access during render.
-type EnvelopeCoverProps = {
-  overlayRef: Ref<HTMLDivElement>;
-  coverRef: Ref<HTMLDivElement>;
-  leftFlapRef: Ref<HTMLDivElement>;
-  rightFlapRef: Ref<HTMLDivElement>;
-  leftShadowRef: Ref<HTMLDivElement>;
-  rightShadowRef: Ref<HTMLDivElement>;
-  sealRef: Ref<HTMLDivElement>;
-  flashRef: Ref<HTMLDivElement>;
-};
 
 /**
  * Pure visuals for the gate: two flaps, the wax seal, and the flash layer.

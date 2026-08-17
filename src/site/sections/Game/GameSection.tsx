@@ -1,6 +1,11 @@
+import { useEffect, useRef, useState } from "react";
 import { GAME_CARD_CONTENT } from "../../../constants";
 import GameCard from "./GameCard";
+import GameStatus from "./GameStatus";
 import { useRevealOnView } from "../../../lib/useRevealOnView";
+
+/** How long a wrong pair stays face up before it turns back down. */
+const MISMATCH_HOLD = 1500;
 
 const GameSection = () => {
   // Dealt onto a table: in close to the viewer, tilted, then flat. The per-element
@@ -15,6 +20,48 @@ const GameSection = () => {
     stagger: 0.18,
     ease: "power3.out",
   });
+
+  /** Indices of the cards currently face up — at most two until the pair is found. */
+  const [selected, setSelected] = useState<number[]>([]);
+  /** Per-card turn count, so each card's spin keeps going forward instead of unwinding. */
+  const [turns, setTurns] = useState<number[]>(() => GAME_CARD_CONTENT.map(() => 0));
+  const [solved, setSolved] = useState(false);
+  /** Set while a wrong pair is on show, so the third card can't be clicked mid-reset. */
+  const [locked, setLocked] = useState(false);
+  /** Wrong pairs so far. `> 0` is "they got it wrong at least once", which is what the hint reads. */
+  const [misses, setMisses] = useState(0);
+
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => void (resetTimer.current && clearTimeout(resetTimer.current)), []);
+
+  const bumpTurns = (indices: number[]) => setTurns((prev) => prev.map((count, i) => (indices.includes(i) ? count + 1 : count)));
+
+  const select = (index: number) => {
+    if (solved || locked || selected.includes(index)) return;
+
+    const next = [...selected, index];
+    setSelected(next);
+    bumpTurns([index]);
+
+    if (next.length < 2) return;
+
+    // The pair is the two cards flagged `value: true` — the bride and the groom.
+    if (next.every((i) => GAME_CARD_CONTENT[i].value)) {
+      setSolved(true);
+      return;
+    }
+
+    // Wrong pair: hold it long enough to read, then turn both back down.
+    setMisses((count) => count + 1);
+    setLocked(true);
+    resetTimer.current = setTimeout(() => {
+      setSelected([]);
+      bumpTurns(next);
+      setLocked(false);
+    }, MISMATCH_HOLD);
+  };
+
   return (
     <section id="game" className=" relative flex justify-start items-center px-4  flex-col pb-20 ">
       {/* the lantern img */}
@@ -22,16 +69,19 @@ const GameSection = () => {
       {/* the section title */}
       <h2 className="text-ink font-bold font-alex tracking-wider  text-3xl  ">Play With Us</h2>
 
-      {/* the description */}
-      <p className="w-full pt-4 font-sans  font-bold text-neutral-700 ">♦ flip the matched cards</p>
+      {/* the description — doubles as the game's only feedback */}
+      <p className="w-full pt-4 font-sans  font-bold text-neutral-700 ">{"♦ flip the matched cards"}</p>
 
       {/* the card img */}
       {/* the 3 cards */}
       <div className="flex flex-wrap items-center justify-around gap-y-4 h-fit pt-5">
         {GAME_CARD_CONTENT.map((card, i) => (
-          <GameCard alt={card.alt} backImage={card.userImage} value={card.value} key={i} />
+          <GameCard alt={card.alt} backImage={card.userImage} flipped={selected.includes(i)} turns={turns[i]} matched={solved && selected.includes(i)} onSelect={() => select(i)} key={card.id} />
         ))}
       </div>
+
+      {/* status line — only speaks once there is something to say */}
+      <GameStatus solved={solved} misses={misses} />
     </section>
   );
 };

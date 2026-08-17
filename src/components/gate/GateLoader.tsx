@@ -1,12 +1,7 @@
 // components/gate/GateLoader.tsx
 
-import type { Ref } from "react";
-
 import { useGateStore } from "../../store/gateStore";
-
-type GateLoaderProps = {
-  ref?: Ref<HTMLDivElement>;
-};
+import type { GateLoaderProps } from "../../types";
 
 /**
  * Sits above the envelope until the gate images are decoded, so the first thing

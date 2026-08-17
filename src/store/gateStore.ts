@@ -2,6 +2,8 @@
 
 import { create } from "zustand";
 
+import type { GateStore } from "../types";
+
 const STORAGE_KEY = "invite:opened";
 
 // Storage access is wrapped — Safari private mode throws on sessionStorage.
@@ -19,30 +21,6 @@ const markGateOpened = () => {
   } catch {
     // Non-fatal: the gate just shows again on the next load.
   }
-};
-
-/**
- * loading  → gate images still downloading, loader up
- * intro    → loader fading out, envelope fading in
- * sealed   → envelope up, waiting on the visitor
- * opening  → open sequence running
- * revealed → site owns the screen, gate gone
- */
-export type GatePhase = "loading" | "intro" | "sealed" | "opening" | "revealed";
-
-type GateStore = {
-  phase: GatePhase;
-  /** 0 → 1, for the loader bar. */
-  progress: number;
-  /** True from the moment the cover drops — media behind the gate waits on it. */
-  isSiteVisible: boolean;
-
-  setProgress: (progress: number) => void;
-  assetsReady: () => void;
-  introDone: () => void;
-  open: () => void;
-  showSite: () => void;
-  reveal: () => void;
 };
 
 /**

@@ -1,17 +1,14 @@
 // components/gate/InvitationGate.tsx
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { useGateStore, wasGateAlreadyOpened } from "../../store/gateStore";
+import type { GateProps } from "../../types";
 import EnvelopeCover from "./EnvelopeCover";
 import GateLoader from "./GateLoader";
 import { GATE_IMAGE_SOURCES } from "./gateAssets";
 import { useGateAssets } from "./useGateAssets";
 import { useGateChoreography } from "./useGateChoreography";
-
-type GateProps = {
-  children: ReactNode;
-};
 
 /**
  * Envelope gate in front of the site. Holds the refs, waits on the gate images,

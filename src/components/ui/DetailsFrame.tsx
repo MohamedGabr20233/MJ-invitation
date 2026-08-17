@@ -1,6 +1,6 @@
-import React from "react";
+import type { DetailsFrameProps } from "../../types";
 
-const DetailsFrame = ({ children }: { children?: React.ReactNode }) => {
+const DetailsFrame = ({ children }: DetailsFrameProps) => {
   return (
     <div className="flex items-center pt-7 flex-col gap-1 w-70 min-h-90  pb-5 relative h-fit">
       {/* the frame image */}

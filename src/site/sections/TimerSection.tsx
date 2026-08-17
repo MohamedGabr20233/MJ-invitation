@@ -4,22 +4,13 @@ import { useEffect, useState } from "react";
 import DiamondRule from "../../components/icons/DiamondRule";
 import LeafDivider from "../../components/icons/LeafDivider";
 import { INVITATION_DATE } from "../../constants";
+import type { CountdownPhase, RemainingTime } from "../../types";
 
 /** Midnight that opens the wedding day: the countdown target. */
 const DAY_START = new Date(INVITATION_DATE.year, INVITATION_DATE.month - 1, INVITATION_DATE.day, 0, 0, 0).getTime();
 
 /** Midnight that closes it. */
 const DAY_END = new Date(INVITATION_DATE.year, INVITATION_DATE.month - 1, INVITATION_DATE.day + 1, 0, 0, 0).getTime();
-
-type Phase = "before" | "today" | "after";
-
-type RemainingTime = {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  phase: Phase;
-};
 
 const ZERO = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
@@ -40,7 +31,7 @@ const getRemainingTime = (): RemainingTime => {
   };
 };
 
-const HEADINGS: Record<Phase, string> = {
+const HEADINGS: Record<CountdownPhase, string> = {
   before: "Until our day",
   today: "The day is here",
   after: "Happily engaged",

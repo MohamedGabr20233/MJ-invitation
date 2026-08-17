@@ -1,31 +1,11 @@
 // components/gate/useGateChoreography.ts
 
-import { useEffect, type RefObject } from "react";
+import { useEffect } from "react";
 
 import { prefersReducedMotion } from "../../lib/motion";
 import { useGateStore } from "../../store/gateStore";
+import type { ElementRef, GateRefs } from "../../types";
 import { GATE_SWAP_MS } from "./gateTimings";
-
-type ElementRef = RefObject<HTMLElement | null>;
-
-export type GateRefs = {
-  /** Overlay root — owns the 3d perspective and the intro fade. */
-  overlay: ElementRef;
-  /** Loading screen shown until the gate images are decoded. */
-  loader: ElementRef;
-  /** Flap that swings open. */
-  rightFlap: ElementRef;
-  leftShadow: ElementRef;
-  rightShadow: ElementRef;
-  /** Wraps both flaps, hidden once the site is revealed. */
-  cover: ElementRef;
-  /** Wax seal, slides off before the flap moves. */
-  seal: ElementRef;
-  /** White flash that masks the cover → site swap. */
-  flash: ElementRef;
-  /** The site behind the gate. Lives outside the overlay. */
-  site: ElementRef;
-};
 
 const addClass = (ref: ElementRef, ...names: string[]) =>
   ref.current?.classList.add(...names);

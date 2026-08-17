@@ -1,11 +1,7 @@
 // lib/useRevealOnView.ts
 
+import type { RevealOptions } from "../types";
 import { gsap, useGSAP } from "./gsap";
-
-type RevealOptions = {
-  /** Detection box vs the viewport. The default shrinks the bottom edge by 20%, i.e. ScrollTrigger's "top 80%". */
-  rootMargin?: string;
-};
 
 /**
  * Plays a `from` tween the first time `root` scrolls into view.

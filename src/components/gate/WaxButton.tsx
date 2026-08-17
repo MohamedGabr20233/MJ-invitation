@@ -1,14 +1,8 @@
 // components/gate/WaxButton.tsx
 
-import type { Ref } from "react";
-
 import { useGateStore } from "../../store/gateStore";
+import type { WaxButtonProps } from "../../types";
 import { GATE_IMAGES } from "./gateAssets";
-
-type WaxButtonProps = {
-  /** Animated by the gate classes — a node nothing else transforms. */
-  ref?: Ref<HTMLDivElement>;
-};
 
 /**
  * Wax seal sitting on the fold — the only thing that opens the gate.
