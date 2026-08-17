@@ -24,7 +24,7 @@ const Content = () => {
       //   this first part is the "Together with their families" and the split text
       .to(firstPartRef.current, { opacity: 1, y: 0, delay: 0.5 })
       .from(invite.chars, { opacity: 0, duration: 0.2, delay: 1, stagger: 0.05 })
-      .to(".reveal", { opacity: 1, y: 0, delay: 0, stagger: 0.15 })
+      .to(".reveal", { opacity: 1, y: 0, delay: 0, stagger: 0.05 })
       .to(".scrollAnimation", { opacity: 1, y: 0, duration: 1, ease: "power2.inOut" });
 
     gsap.to(".nameAnimate", { opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: "power2.inOut", delay: 1.5 });
@@ -34,7 +34,7 @@ const Content = () => {
   }, [isSiteVisible]);
 
   return (
-    <section id="hero" className="w-full relative  max-w-90 z-20  flex items-center  flex-col pt-20 max-sm:pt-10">
+    <section id="hero" className="w-full relative  max-w-98 z-20  flex items-center  flex-col pt-20 max-sm:pt-10">
       {/* the first text */}
 
       <div ref={firstPartRef} className=" translate-y-5 opacity-0">
@@ -45,7 +45,7 @@ const Content = () => {
 
       {/* the name section */}
 
-      <h1 className="text-6xl  pt-2 tracking-wider   text-white font-alex flex items-center flex-col">
+      <h1 className="text-[5rem]  pt-2 tracking-wider   text-white font-alex flex items-center flex-col">
         <p className="nameAnimate overflow-hidden translate-y-10 opacity-0">{MALE}</p>
         <span className="text-4xl mb-5  translate-y-5 opacity-0" id="And">
           &
@@ -53,12 +53,12 @@ const Content = () => {
         <p className="nameAnimate overflow-hidden translate-y-10 opacity-0">{FEMALE}</p>
       </h1>
 
-      <p ref={inviteRef} className="uppercase font-manrope text-xs tracking-[.3rem] text-white/90 pt-6 text-center leading-6  max-w-82 ">
+      <p ref={inviteRef} className="uppercase font-manrope text-base tracking-[.3rem] text-white/90 pt-6 text-center leading-6  max-w-98 ">
         invite you to celebrate their beginning of their
       </p>
 
-      <p className=" reveal opacity-0 px-4 text-center w-fit font-alex text-white text-4xl pt-2 relative">
-        forever <span className="absolute text-xl top-1 inset-e-0">♥</span>
+      <p className=" reveal opacity-0 px-4 text-center w-fit font-alex text-white text-5xl pt-4 relative">
+        forever <span className="absolute text-xl top-3 inset-e-0">♥</span>
       </p>
 
       {/* the date */}
@@ -76,11 +76,11 @@ const Content = () => {
         </div>
       </div>
 
-      <p className="  reveal opacity-0 px-4 text-center w-fit font-alex text-white text-xl placeholder-taupe-100 tracking-wider pt-2 relative">A new chapter begins</p>
+      <p className="  reveal opacity-0 px-4 text-center w-fit font-alex text-white text-3xl placeholder-taupe-100 tracking-wider pt-2 relative">A new chapter begins</p>
 
       {/* at the bottom scroll section */}
 
-      <div className="reveal pt-20 overflow-hidden mt-auto  text-center mb-10 font-manrope text-white tracking-widest">
+      <div className="reveal pt-20 overflow-hidden   text-center mb-10 font-manrope text-white tracking-widest">
         <div className="opacity-0   scrollAnimation translate-y-4">
           <p> Scroll Down </p>
           {/* arrow down button */}

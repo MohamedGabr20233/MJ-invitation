@@ -1,8 +1,8 @@
-import { InvitationLocations } from "../../../constants";
+import { InvitationLocations } from "../../constants";
 
 const BoatSection = () => {
   return (
-    <section id="boat" className="r flex justify-start items-center px-4  flex-col pb-20 ">
+    <section id="boat" className=" flex justify-start items-center px-4  flex-col pb-20 ">
       {/* the rapunzel logo */}
       <img src="/sun.png" alt="tangled-sun" className="  h-30 rotate-90 skew-1" />
 
