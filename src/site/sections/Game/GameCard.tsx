@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+const CARD_WIDTH = 190;
+
+/** The card art ships as 190/380/570px webp variants so the browser never has to downscale a huge source. */
+const cardSrcSet = (base: string) => [190, 380, 570].map((w) => `${base}-${w}.webp ${w}w`).join(", ");
+
 const GameCard = ({ className, backImage, alt, value }: { className?: string; backImage: string; alt: string; value: boolean }) => {
   const [flipped, setFlipped] = useState(false);
   console.log(value);
@@ -14,12 +19,24 @@ const GameCard = ({ className, backImage, alt, value }: { className?: string; ba
       >
         {/* the front */}
         <div className="absolute inset-0 backface-hidden">
-          <img src="/rapunzel-play-card.png" alt="play card" width={1024} height={1536} className="h-60 w-full rounded-xl object-cover" />
+          <img
+            src={`/cards/rapunzel-play-card-${CARD_WIDTH}.webp`}
+            srcSet={cardSrcSet("/cards/rapunzel-play-card")}
+            sizes={`${CARD_WIDTH}px`}
+            alt="play card"
+            className="h-60 w-full rounded-xl object-cover"
+          />
         </div>
 
         {/* the back */}
         <div className="absolute inset-0 backface-hidden transform-[rotateY(180deg)]">
-          <img className="h-60 w-full rounded-xl object-cover" alt={alt} src={backImage} />
+          <img
+            src={`${backImage}-${CARD_WIDTH}.webp`}
+            srcSet={cardSrcSet(backImage)}
+            sizes={`${CARD_WIDTH}px`}
+            alt={alt}
+            className="h-60 w-full rounded-xl object-cover"
+          />
         </div>
       </div>
     </div>

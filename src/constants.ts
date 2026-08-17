@@ -18,23 +18,24 @@ export const InvitationLocations = {
   link: "https://www.google.com/maps?cid=2322453712841119133&hl=en&gl=us",
 };
 
+/** Card art lives in /public/cards as 190/380/570px webp variants — see scripts/resize-cards.mjs. */
 export const GAME_CARD_CONTENT = [
   {
     id: 1,
     value: true,
-    userImage: "/gbr.jpeg",
+    userImage: "/cards/gbr",
     alt: "the groom image",
   },
   {
     id: 2,
     value: true,
-    userImage: "/jilan.jpeg",
+    userImage: "/cards/jilan",
     alt: "the bride image",
   },
   {
     id: 3,
     value: false,
-    userImage: "/flynn-poster.png",
+    userImage: "/cards/flynn-poster",
     alt: "the funny image",
   },
 ];
