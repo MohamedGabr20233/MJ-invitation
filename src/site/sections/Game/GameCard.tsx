@@ -5,7 +5,7 @@ const GameCard = ({ className, backImage, alt, value }: { className?: string; ba
   console.log(value);
   return (
     // the card container
-    <div onClick={() => setFlipped((prev) => !prev)} className={className || "relative rounded-xl w-1/3 h-60 min-w-45 perspective-distant"}>
+    <div onClick={() => setFlipped((prev) => !prev)} className={className || "relative rounded-xl w-1/3 h-60 min-w-45 perspective-distant px-2"}>
       {/* the card */}
       <div
         className={`relative h-60 w-full cursor-pointer transition-transform
