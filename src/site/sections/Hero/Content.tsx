@@ -46,11 +46,11 @@ const Content = () => {
       {/* the name section */}
 
       <h1 className="text-[5rem]  pt-2 tracking-wider   text-white font-alex flex items-center flex-col">
-        <p className="nameAnimate overflow-hidden translate-y-10 opacity-0">{MALE}</p>
+        <p className="nameAnimate  overflow-hidden translate-y-10 opacity-0">{MALE}</p>
         <span className="text-4xl mb-5  translate-y-5 opacity-0" id="And">
           &
         </span>
-        <p className="nameAnimate overflow-hidden translate-y-10 opacity-0">{FEMALE}</p>
+        <p className="nameAnimate text-[5.5rem] overflow-hidden translate-y-10 opacity-0">{FEMALE}</p>
       </h1>
 
       <p ref={inviteRef} className="uppercase font-manrope text-base tracking-[.3rem] text-white/90 pt-6 text-center leading-6  max-w-98 ">
