@@ -2,15 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { GAME_CARD_CONTENT } from "../../../constants";
 import GameCard from "./GameCard";
 import GameStatus from "./GameStatus";
+import GameSuccess from "./GameSuccess";
 import { useRevealOnView } from "../../../lib/useRevealOnView";
 
 /** How long a wrong pair stays face up before it turns back down. */
 const MISMATCH_HOLD = 1500;
 
 const GameSection = () => {
-  // Dealt onto a table: in close to the viewer, tilted, then flat. The per-element
-  // `transformPerspective` is what sells the depth — the flex row holding the cards
-  // has no `perspective` of its own.
   useRevealOnView("#game", ".card-wrap", {
     transformPerspective: 800,
     z: 40,
@@ -82,6 +80,10 @@ const GameSection = () => {
 
       {/* status line — only speaks once there is something to say */}
       <GameStatus solved={solved} misses={misses} />
+
+      {/* The reward. Mounting is what starts the lanterns — the CSS animation
+          runs on first paint, so this must not be in the tree before the win. */}
+      {solved && <GameSuccess />}
     </section>
   );
 };

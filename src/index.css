@@ -93,6 +93,12 @@
   --font-times: "Times New Roman", Times, ui-serif, serif;
   --font-sans: var(--font-manrope);
   --font-display: var(--font-alex);
+
+  /* `linear` on purpose — `lantern-rise` sets its own easing per step. */
+  --animate-lantern-rise: lantern-rise 5s linear forwards;
+  --animate-lantern-swell: lantern-swell 5s linear forwards;
+  --animate-lantern-sway: lantern-sway 3s ease-in-out infinite;
+  --animate-lantern-glow: lantern-glow 2s ease-in-out infinite;
 }
 
 body {
@@ -336,6 +342,83 @@ html {
 .gate-site-instant {
   opacity: 1;
   transform: none;
+}
+
+
+/* One unbroken climb. `transform` is declared at 0% and 100% only, so the
+   browser tweens it as a single segment and the lantern can never stall — the
+   stops in between touch `opacity` alone. The easing named on 0% is what
+   governs that whole segment: a soft push off the ground, then near-constant
+   speed the rest of the way up. */
+
+@keyframes lantern-rise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.33, 0.12, 0.5, 0.92);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(var(--lantern-drift, 0px), -125vh, 0);
+    opacity: 0;
+  }
+}
+
+/* Depth. The lantern reads as passing near the camera and then away again —
+   small, swelling past full size around the midpoint, then falling off small.
+   This has to be non-monotonic, so it gets its OWN element rather than a middle
+   keyframe inside `lantern-rise`: a mid stop there would cut the climb into two
+   segments at different speeds, which is exactly the stutter we keep removing.
+   On its own element it has its own clock and cannot disturb the position. */
+
+@keyframes lantern-swell {
+  0% {
+    transform: scale(var(--lantern-scale-from, 0.55));
+    animation-timing-function: cubic-bezier(0.4, 0, 0.4, 1);
+  }
+
+  45% {
+    transform: scale(var(--lantern-scale-peak, 1));
+    animation-timing-function: cubic-bezier(0.6, 0, 0.5, 1);
+  }
+
+  100% {
+    transform: scale(var(--lantern-scale-to, 0.3));
+  }
+}
+
+@keyframes lantern-sway {
+
+  0%,
+  100% {
+    transform: translateX(-8px) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateX(8px) rotate(3deg);
+  }
+}
+
+/* Warm halo, kept low so it does not light up the white sticker outline. */
+
+@keyframes lantern-glow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px rgb(255 186 92 / 0.45));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 16px rgb(255 186 92 / 0.8));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -6,7 +6,7 @@ import TimerSection from "./sections/TimerSection";
 
 const WeddingSite = () => {
   return (
-    <main className="mx-auto  w-full bg-cream md:max-w-150 overflow-hidden">
+    <main className="mx-auto relative  w-full bg-cream md:max-w-150 overflow-hidden">
       {/* the video section */}
       <HeroSection />
       <TimerSection />
