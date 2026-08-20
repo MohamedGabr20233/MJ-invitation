@@ -27,3 +27,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Exported guest data — real names, notes and faces
+exports/

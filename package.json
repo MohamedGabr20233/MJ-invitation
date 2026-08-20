@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "cards": "node scripts/resize-cards.mjs",
+    "rsvp:export": "node --env-file=.env.local scripts/export-rsvp.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -219,3 +219,56 @@ export type RsvpGuestStepperProps = {
   guestCount: number;
   onChange: (guestCount: number) => void;
 };
+
+/* ── /coming dashboard ──────────────────────────────────────────────────────── */
+
+/** One row of `rsvp_responses`, snake_case as Postgres hands it over. */
+export type RsvpResponseRow = {
+  id: string;
+  created_at: string;
+  updated_at: string | null;
+  guest_name: string;
+  is_attending: boolean;
+  guest_count: number;
+  message: string | null;
+  photo_path: string | null;
+};
+
+export type RsvpFeedResult = { status: "ok"; responses: RsvpResponseRow[] } | { status: "unavailable" };
+
+/** The numbers across the top, all derived from the rows in one pass. */
+export type RsvpAnalytics = {
+  acceptedCount: number;
+  declinedCount: number;
+  responseCount: number;
+  /** Everyone a "yes" brings, the person answering included. */
+  totalPeople: number;
+  messageCount: number;
+  photoCount: number;
+};
+
+export type RsvpFeedStore = {
+  responses: RsvpResponseRow[];
+  isLoading: boolean;
+  /** The store could not be read — same failure the RSVP form reports. */
+  isUnavailable: boolean;
+  load: () => Promise<void>;
+};
+
+export type StatCardProps = {
+  label: string;
+  value: number;
+  /** Small line under the number, e.g. what it counts. */
+  caption?: string;
+  /** The two headline cards read louder than the strip underneath. */
+  tone: "accepted" | "declined" | "neutral";
+};
+
+export type GuestCardProps = {
+  response: RsvpResponseRow;
+  isOpen: boolean;
+  onToggle: () => void;
+};
+
+/** Which answers the list is showing. */
+export type ComingFilter = "all" | "yes" | "no";

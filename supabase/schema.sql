@@ -55,3 +55,15 @@ create policy "anon can update own rsvp" on public.rsvp_responses
 -- Bookkeeping, so the dashboard shows which answers were changed and when.
 alter table public.rsvp_responses
   add column if not exists updated_at timestamptz;
+
+-- ── reading the answers in the browser (/coming) ────────────────────────────
+-- The /coming dashboard is a public page in a static bundle, so the anon key is
+-- what reads the table. This policy therefore makes every answer — names,
+-- messages, guest counts — readable by anyone who loads the site, whether or
+-- not they know the /coming url. The photos are already public (the bucket's
+-- read policy above). Keep this only while you want that.
+--
+-- To take it back: drop policy "anon can read rsvp" on public.rsvp_responses;
+drop policy if exists "anon can read rsvp" on public.rsvp_responses;
+create policy "anon can read rsvp" on public.rsvp_responses
+  for select to anon using (true);
