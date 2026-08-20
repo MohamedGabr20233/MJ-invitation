@@ -61,7 +61,7 @@ const GameSection = () => {
   };
 
   return (
-    <section id="game" className=" relative flex justify-start items-center px-4  flex-col pb-20 ">
+    <section id="game" className=" relative flex justify-start items-center px-4  flex-col pb-10 ">
       {/* the lantern img */}
       <img src="/rapunzel-lantern-duo.png" alt="rapunzel lantern img" className="absolute -top-30  -right-2 w-45" />
       {/* the section title */}

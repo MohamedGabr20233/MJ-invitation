@@ -57,7 +57,7 @@ const TimerSection = () => {
 
   return (
     <section className="bg-cream text-ink px-6 py-12">
-      <h2 className="font-cormorant text-center text-[15px] font-semibold tracking-[0.35em] uppercase">{HEADINGS[remaining.phase]}</h2>
+      <h2 className="font-alex text-center text-3xl font-semibold tracking-wider ">{HEADINGS[remaining.phase]}</h2>
 
       <DiamondRule className="mx-auto mt-3 h-2 w-36" />
 

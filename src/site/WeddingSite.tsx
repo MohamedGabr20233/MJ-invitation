@@ -2,6 +2,7 @@ import BoatSection from "./sections/BoatSection";
 import DetailsSection from "./sections/DetailsSection";
 import GameSection from "./sections/Game/GameSection";
 import HeroSection from "./sections/Hero/HeroSection";
+import RsvpSection from "./sections/RsvpSection";
 import TimerSection from "./sections/TimerSection";
 
 const WeddingSite = () => {
@@ -14,6 +15,7 @@ const WeddingSite = () => {
       {/* the boat section */}
       <BoatSection />
       <GameSection />
+      <RsvpSection />
     </main>
   );
 };
