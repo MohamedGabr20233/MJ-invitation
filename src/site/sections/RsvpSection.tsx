@@ -29,8 +29,9 @@ const RsvpSection = () => {
     {
       opacity: 0,
       y: 20,
-      duration: 1,
+      duration: 0.5,
       stagger: 0.2,
+      ease: "power1.inOut",
     },
     { rootMargin: "0px 0px -35% 0px" },
   );
@@ -41,8 +42,9 @@ const RsvpSection = () => {
     {
       opacity: 0,
       y: 20,
-      duration: 1,
+      duration: 0.5,
       stagger: 0.2,
+      ease: "power1.inOut",
     },
     { rootMargin: "0px 0px -35% 0px" },
   );

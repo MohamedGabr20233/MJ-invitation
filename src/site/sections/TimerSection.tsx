@@ -61,6 +61,7 @@ const TimerSection = () => {
     opacity: 0,
     duration: 1,
     stagger: 0.5,
+    ease: "power1.inOut",
   });
 
   return (

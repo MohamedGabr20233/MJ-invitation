@@ -11,8 +11,9 @@ const DetailsSection = () => {
     {
       opacity: 0,
       y: 20,
-      duration: 1,
-      stagger: 0.1,
+      duration: 0.3,
+      stagger: 0.2,
+      ease: "power1.inOut",
     },
     { rootMargin: "0px 0px -50% 0px" },
   );
@@ -23,8 +24,9 @@ const DetailsSection = () => {
     {
       opacity: 0,
       y: 20,
-      duration: 1,
-      stagger: 0.1,
+      duration: 0.5,
+      stagger: 0.2,
+      ease: "power1.inOut",
     },
     { rootMargin: "0px 0px -50% 0px" },
   );
