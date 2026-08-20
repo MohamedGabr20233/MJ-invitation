@@ -35,7 +35,7 @@ const HeroSection = () => {
       {/* the video container */}
       <div className="w-full  min-h-dvh relative flex justify-center" ref={containerRef}>
         {/* the black overlay */}
-        <div className="absolute top-0 left-0 w-full h-full z-10 bg-black opacity-50" />
+        <div className="absolute top-0 left-0 w-full h-full z-10 bg-scrim opacity-50" />
         <video ref={videoRef} src="/Rapunzel-Song.mp4" className="absolute top-0 left-0 h-full  w-full object-cover" muted loop playsInline preload="auto" aria-label="Dancing on the Nile" />
 
         {/* the content box */}

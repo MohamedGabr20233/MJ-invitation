@@ -5,6 +5,7 @@ import DiamondRule from "../../components/icons/DiamondRule";
 import LeafDivider from "../../components/icons/LeafDivider";
 import { INVITATION_DATE } from "../../constants";
 import type { CountdownPhase, RemainingTime } from "../../types";
+import { useRevealOnView } from "../../lib/useRevealOnView";
 
 /** Midnight that opens the wedding day: the countdown target. */
 const DAY_START = new Date(INVITATION_DATE.year, INVITATION_DATE.month - 1, INVITATION_DATE.day, 0, 0, 0).getTime();
@@ -55,15 +56,24 @@ const TimerSection = () => {
     { label: "Seconds", value: remaining.seconds },
   ];
 
-  return (
-    <section className="bg-cream text-ink px-6 py-12">
-      <h2 className="font-alex text-center text-3xl font-semibold tracking-wider ">{HEADINGS[remaining.phase]}</h2>
+  useRevealOnView("#timer", ".reveal-in", {
+    y: 20,
+    opacity: 0,
+    duration: 1,
+    stagger: 0.5,
+  });
 
-      <DiamondRule className="mx-auto mt-3 h-2 w-36" />
+  return (
+    <section id="timer" className="bg-surface text-primary px-6 py-12">
+      <div className="reveal-in">
+        <h2 className="font-alex text-center text-3xl font-semibold tracking-wider ">{HEADINGS[remaining.phase]}</h2>
+
+        <DiamondRule className="mx-auto mt-3 h-2 w-36" />
+      </div>
 
       {/* Equal columns keep every digit in place as the numbers tick, so nothing
           shifts sideways when the seconds roll over or a unit loses a digit. */}
-      <div className="divide-gold/40 mx-auto mt-8 grid max-w-md grid-cols-4 divide-x">
+      <div className="reveal-in divide-secondary/40 mx-auto mt-8 grid max-w-md grid-cols-4 divide-x">
         {units.map((unit) => (
           <div key={unit.label} className="flex flex-col  items-center">
             <span className="font-manrope text-[34px] leading-none font-semibold tabular-nums">{String(unit.value).padStart(2, "0")}</span>
@@ -73,7 +83,7 @@ const TimerSection = () => {
         ))}
       </div>
 
-      <div className="mt-10 flex justify-center">
+      <div className="reveal-in mt-10 flex justify-center">
         <LeafDivider />
       </div>
     </section>

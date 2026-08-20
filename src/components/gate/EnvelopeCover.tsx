@@ -47,7 +47,7 @@ const EnvelopeCover = ({
       {/* White flash that hides the cover → site swap */}
       <div
         ref={flashRef}
-        className="pointer-events-none absolute inset-0 z-50 bg-white opacity-0"
+        className="pointer-events-none absolute inset-0 z-50 bg-surface-raised opacity-0"
       />
     </div>
   );

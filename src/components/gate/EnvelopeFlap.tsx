@@ -34,7 +34,7 @@ const EnvelopeFlap = ({ side, image, ref, shadowRef }: EnvelopeFlapProps) => {
 
       <div
         ref={shadowRef}
-        className={`pointer-events-none absolute top-0 z-10 h-full w-16 from-black/30 to-transparent opacity-0 blur-xl ${shadowClasses[side]}`}
+        className={`pointer-events-none absolute top-0 z-10 h-full w-16 from-scrim/30 to-transparent opacity-0 blur-xl ${shadowClasses[side]}`}
       />
     </div>
   );

@@ -75,13 +75,48 @@
 }
 
 @theme {
-  --color-primary: #240046;
-  --color-background: #fefae0;
+  /* ---------------------------------------------------------------------------
+     The palette. Every color the design renders lives here, so re-skinning the
+     invitation means editing this block and nothing else — with one exception:
+     several assets carry the navy/gold identity as baked-in pixels and no token
+     can reach them. A re-skin has to replace them by hand:
+       /frame-blue.png  /roses-blue.png  /RSVP.png  /map-paper.png
+       /white-paper.png  /sun.png  /button.png  /lantern*.png
+       /letter-left.png  /letter-right2.png
 
-  /* Countdown palette: warm paper ground, deep navy type, warm gold details. */
-  --color-cream: #f7f2ea;
-  --color-ink: #234e70;
-  --color-gold: #c2a377;
+     Brand: navy sets the type in every content section, so it is `primary`;
+     gold is the only decorative metal, so it is `secondary`; the deep plum
+     appears in exactly one moment — the entry gate — so it is `accent`.
+  --------------------------------------------------------------------------- */
+
+  --color-primary: #234e70;
+  --color-secondary: #c2a377;
+  --color-secondary-dark: #8f7857;
+  --color-secondary-light: #e3d2b4;
+  --color-accent: #240046;
+
+  /* Grounds. `surface-alt` sits behind the gate, `surface` is the site column;
+     they are two hairs apart on purpose and must stay distinct. */
+  --color-surface: #f7f2ea;
+  --color-surface-alt: #fefae0;
+  --color-surface-raised: #fff;
+
+  /* Type. `on-media` is copy laid over video and photography. `muted` is
+     Tailwind's own `neutral-700` — copied verbatim, hue channel `none` and all,
+     because v4 ships an oklch palette and the v3 hex is a different color. */
+  --color-on-media: #fff;
+  --color-muted: oklch(37.1% 0 none);
+
+  /* Effects. `highlight` is Tailwind's `amber-300`, again verbatim. `glow` is
+     the lantern halo — #ffba5c is exactly the rgb(255 186 92) it replaces. */
+  --color-scrim: #000;
+  --color-highlight: oklch(87.9% 0.169 91.605);
+  --color-glow: #ffba5c;
+
+  /* Card depth. Black-alpha, not brand — a re-skin leaves these alone. Kept in
+     step with the GSAP tweens in Game/GameCard.tsx by hand. */
+  --shadow-card: 0px 4px 12px rgba(0, 0, 0, 0.18);
+  --shadow-card-lift: 0px 26px 44px rgba(0, 0, 0, 0.42);
 
   /* `font-manrope` / `font-alex`, plus `font-sans` and `font-display` so
      unclassed body copy and headings pick these up by default. */
@@ -413,11 +448,11 @@ html {
 
   0%,
   100% {
-    filter: drop-shadow(0 0 6px rgb(255 186 92 / 0.45));
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--color-glow) 45%, transparent));
   }
 
   50% {
-    filter: drop-shadow(0 0 16px rgb(255 186 92 / 0.8));
+    filter: drop-shadow(0 0 16px color-mix(in srgb, var(--color-glow) 80%, transparent));
   }
 }
 

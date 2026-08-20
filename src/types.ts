@@ -132,6 +132,7 @@ export type IconProps = {
 
 export type DetailsFrameProps = {
   children?: ReactNode;
+  className?: string;
 };
 
 /* ── reveal hook ────────────────────────────────────────────────────────── */

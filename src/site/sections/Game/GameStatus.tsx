@@ -53,12 +53,12 @@ const GameStatus = ({ solved, misses }: GameStatusProps) => {
     <div className="flex min-h-14 items-center justify-center pt-10">
       {!hasStatus ? null : solved ? (
         <div ref={lineRef} className="flex flex-col items-center gap-1">
-          <p className="font-alex text-ink text-3xl leading-none">you found the two of us</p>
+          <p className="font-alex text-primary text-3xl leading-none">you found the two of us</p>
 
           <DiamondRule className="status-rule h-2 w-36 origin-center" />
         </div>
       ) : (
-        <div ref={lineRef} className="text-gold flex items-center gap-2">
+        <div ref={lineRef} className="text-secondary flex items-center gap-2">
           <span className="text-[10px] leading-none">♦</span>
 
           <p className="font-cormorant text-[12px] font-semibold tracking-[0.28em] uppercase">not the couple — try again</p>

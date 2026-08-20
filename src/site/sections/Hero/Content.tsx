@@ -38,31 +38,31 @@ const Content = () => {
       {/* the first text */}
 
       <div ref={firstPartRef} className=" translate-y-5 opacity-0">
-        <p className="uppercase font-manrope text-xs tracking-[.3rem] text-white/90 ">Together with their families</p>
+        <p className="uppercase font-manrope text-xs tracking-[.3rem] text-on-media/90 ">Together with their families</p>
         {/* the split */}
         <HeroSplitter />
       </div>
 
       {/* the name section */}
 
-      <h1 className="text-[5rem]  pt-2 tracking-wider   text-white font-alex flex items-center flex-col">
+      <h1 className="text-[5rem]  pt-2 tracking-wider   text-on-media font-alex flex items-center flex-col">
         <p className="nameAnimate  overflow-hidden translate-y-10 opacity-0">{MALE}</p>
         <span className="text-4xl mb-5  translate-y-5 opacity-0" id="And">
           &
         </span>
-        <p className="nameAnimate text-[5.5rem] overflow-hidden translate-y-10 opacity-0">{FEMALE}</p>
+        <p className="nameAnimate text-[5.8rem] overflow-hidden translate-y-10 opacity-0">{FEMALE}</p>
       </h1>
 
-      <p ref={inviteRef} className="uppercase font-manrope text-base tracking-[.3rem] text-white/90 pt-6 text-center leading-6  max-w-98 ">
+      <p ref={inviteRef} className="uppercase font-manrope text-base tracking-[.3rem] text-on-media/90 pt-6 text-center leading-6  max-w-98 ">
         invite you to celebrate their beginning of their
       </p>
 
-      <p className=" reveal opacity-0 px-4 text-center w-fit font-alex text-white text-5xl pt-4 relative">
+      <p className=" reveal opacity-0 px-4 text-center w-fit font-alex text-on-media text-5xl pt-4 relative">
         forever <span className="absolute text-xl top-3 inset-e-0">♥</span>
       </p>
 
       {/* the date */}
-      <div className="   text-white w-full text-lg  leading-0 flex-col flex items-center font-manrope  justify-around">
+      <div className="   text-on-media w-full text-lg  leading-0 flex-col flex items-center font-manrope  justify-around">
         <div className="w-full reveal translate-y-7 opacity-0 ">
           <HeroSplitter />
         </div>
@@ -76,11 +76,11 @@ const Content = () => {
         </div>
       </div>
 
-      <p className="  reveal opacity-0 px-4 text-center w-fit font-alex text-white text-3xl placeholder-taupe-100 tracking-wider pt-2 relative">A new chapter begins</p>
+      <p className="  reveal opacity-0 px-4 text-center w-fit font-alex text-on-media text-3xl tracking-wider pt-2 relative">A new chapter begins</p>
 
       {/* at the bottom scroll section */}
 
-      <div className="reveal pt-20 overflow-hidden   text-center mb-10 font-manrope text-white tracking-widest">
+      <div className="reveal pt-20 overflow-hidden   text-center mb-10 font-manrope text-on-media tracking-widest">
         <div className="opacity-0   scrollAnimation translate-y-4">
           <p> Scroll Down </p>
           {/* arrow down button */}

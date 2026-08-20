@@ -19,6 +19,14 @@ const GameSection = () => {
     ease: "power3.out",
   });
 
+  useRevealOnView("#game", ".reval-in", {
+    y: 10,
+    opacity: 0,
+    duration: 0.5,
+    stagger: 0.18,
+
+    ease: "power1.inOut",
+  });
   /** Indices of the cards currently face up — at most two until the pair is found. */
   const [selected, setSelected] = useState<number[]>([]);
   /** Per-card turn count, so each card's spin keeps going forward instead of unwinding. */
@@ -61,14 +69,14 @@ const GameSection = () => {
   };
 
   return (
-    <section id="game" className=" relative flex justify-start items-center px-4  flex-col pb-10 ">
+    <section id="game" className=" z-10 relative flex justify-start items-center px-4  flex-col pb-10 ">
       {/* the lantern img */}
-      <img src="/rapunzel-lantern-duo.png" alt="rapunzel lantern img" className="absolute -top-30  -right-2 w-45" />
+      <img src="/rapunzel-lantern-duo.png" alt="rapunzel lantern img" className="absolute reval-in -top-30  -right-2 w-45" />
       {/* the section title */}
-      <h2 className="text-ink font-bold font-alex tracking-wider  text-3xl  ">Play With Us</h2>
+      <h2 className="text-primary reval-in font-bold font-alex tracking-wider  text-3xl  ">Play With Us</h2>
 
       {/* the description — doubles as the game's only feedback */}
-      <p className="w-full pt-4 font-sans  font-bold text-neutral-700 ">{"♦ flip the matched cards"}</p>
+      <p className="reval-in w-full pt-4 font-sans  font-bold text-muted ">{"♦ flip the matched cards"}</p>
 
       {/* the card img */}
       {/* the 3 cards */}

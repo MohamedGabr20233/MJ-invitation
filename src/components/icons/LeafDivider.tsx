@@ -2,7 +2,7 @@
 
 /** Two wheat sprigs leaning toward a centre diamond. Closes a section. */
 const LeafDivider = () => (
-  <svg viewBox="0 0 220 24" fill="none" aria-hidden className="text-gold h-5 w-52">
+  <svg viewBox="0 0 220 24" fill="none" aria-hidden className="text-secondary h-5 w-52">
     <g stroke="currentColor" strokeWidth="1" strokeLinecap="round">
       {/* left sprig, tip pointing outward, growing toward the centre */}
       <path d="M14 16q38-9 82-4" />

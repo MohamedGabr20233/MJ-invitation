@@ -39,7 +39,7 @@ const WaxButton = ({ ref }: WaxButtonProps) => {
         {/* Decorative — the button already announces itself to screen readers */}
         <span
           aria-hidden="true"
-          className={`pointer-events-none mt-2 block text-center text-[0.625rem] uppercase tracking-[0.3em] text-primary/70 opacity-0 ${
+          className={`pointer-events-none mt-2 block text-center text-[0.625rem] uppercase tracking-[0.3em] text-accent/70 opacity-0 ${
             isOpening ? "gate-hint-out" : isSealed ? "gate-hint-in" : ""
           }`}
         >
