@@ -3,7 +3,7 @@ import DetailsSection from "./sections/DetailsSection";
 import Footer from "./sections/Footer";
 import GameSection from "./sections/Game/GameSection";
 import HeroSection from "./sections/Hero/HeroSection";
-import RsvpSection from "./sections/RsvpSection";
+import RsvpSection from "./sections/Rsvp/RsvpSection";
 import TimerSection from "./sections/TimerSection";
 
 const WeddingSite = () => {

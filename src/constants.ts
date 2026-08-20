@@ -27,15 +27,42 @@ export const GAME_CARD_CONTENT = [
     alt: "the groom image",
   },
   {
-    id: 3,
-    value: false,
-    userImage: "/cards/flynn-poster",
-    alt: "the funny image",
-  },
-  {
     id: 2,
     value: true,
     userImage: "/cards/jilan",
     alt: "the bride image",
   },
+  {
+    id: 3,
+    value: false,
+    userImage: "/cards/flynn-poster",
+    alt: "the funny image",
+  },
 ];
+
+/* ── rsvp ─────────────────────────────────────────────────────────────────── */
+
+/** The bounds the form enforces and the SQL `check` constraints mirror. */
+export const RSVP_LIMITS = {
+  MIN_NAME_LENGTH: 2,
+  MAX_NAME_LENGTH: 80,
+  MIN_GUESTS: 1,
+  MAX_GUESTS: 10,
+  MAX_MESSAGE_LENGTH: 500,
+  /** 5 MB — a phone photo passes, a screen recording does not. */
+  MAX_PHOTO_BYTES: 5 * 1024 * 1024,
+  ACCEPTED_PHOTO_TYPES: "image/png,image/jpeg,image/webp,image/heic,image/heif",
+} as const;
+
+/**
+ * Shown when Supabase is unreachable or the keys are missing. Arabic on purpose
+ * — the guests who would rather text Gbr than read an English error are the
+ * ones this line is for.
+ */
+export const RSVP_MAINTENANCE_AR = {
+  message: "الفورم واقع مؤقتاً 🙈 — كلّم جبر وهو يظبطها، وجرّب تاني بعد شوية.",
+  retryLabel: "جرّب تاني",
+};
+
+/** Remembers a sent RSVP across reloads, so the success card comes back. */
+export const RSVP_STORAGE_KEY = "rsvp:submitted";
