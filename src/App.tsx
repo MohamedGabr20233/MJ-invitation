@@ -3,7 +3,7 @@ import WeddingSite from "./site/WeddingSite";
 
 const App = () => {
   return (
-    <main className="min-h-dvh w-full bg-surface-alt">
+    <main className="min-h-svh w-full bg-surface-alt">
       <InvitationGate>
         <WeddingSite />
       </InvitationGate>
