@@ -8,10 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "cards": "node scripts/resize-cards.mjs",
+    "rsvp:export": "node --env-file=.env.local scripts/export-rsvp.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@supabase/supabase-js": "^2.112.3",
     "@tailwindcss/vite": "^4.3.3",
     "gsap": "^3.15.0",
     "lucide-react": "^1.31.0",

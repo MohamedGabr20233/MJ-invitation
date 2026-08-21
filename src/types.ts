@@ -141,3 +141,134 @@ export type RevealOptions = {
   /** Detection box vs the viewport. The default shrinks the bottom edge by 20%, i.e. ScrollTrigger's "top 80%". */
   rootMargin?: string;
 };
+
+/* ── rsvp ───────────────────────────────────────────────────────────────────── */
+
+/** The one question that matters, in the order the control renders it. */
+export type RsvpAnswer = "yes" | "no";
+
+/** What the form holds before it is sent. `photoFile` is the raw pick. */
+export type RsvpDraft = {
+  /**
+   * The row this answer belongs to. The client mints it, because with no select
+   * policy an insert cannot read its own id back — so `null` means "first send,
+   * mint one" and a uuid means "update the answer already sitting there".
+   */
+  rsvpId: string | null;
+  guestName: string;
+  isAttending: boolean;
+  /** Includes the person answering, so it is never below 1. Ignored on a "no". */
+  guestCount: number;
+  message: string;
+  /** A fresh pick. `null` on a change of answer means "leave the photo alone". */
+  photoFile: File | null;
+  /**
+   * The photo already on the row: carried through an update so it survives, or
+   * `null` when they removed it and it should go.
+   */
+  photoPath: string | null;
+};
+
+/**
+ * `invalid` is caught before the network call; `unavailable` covers a real
+ * outage, missing env keys and an RLS rejection alike — from the guest's side
+ * they are the same "not my problem" failure.
+ */
+export type RsvpSubmitResult = { status: "sent"; rsvpId: string; photoPath: string | null } | { status: "invalid"; hint: string } | { status: "unavailable" };
+
+/**
+ * The answer this browser already sent, kept in `localStorage` so a reload
+ * shows the card and a change re-opens the form on the same row.
+ */
+export type SavedRsvp = {
+  rsvpId: string;
+  guestName: string;
+  isAttending: boolean;
+  guestCount: number;
+  message: string;
+  /** Object path in the bucket, so a re-opened form can show the photo again. */
+  photoPath: string | null;
+};
+
+/** Drives which of the three faces the section shows. */
+export type RsvpFormStatus = "idle" | "sending" | "sent" | "unavailable";
+
+export type RsvpSuccessProps = {
+  guestName: string;
+  isAttending: boolean;
+  /** Only read when attending, so the card can say who is coming with them. */
+  guestCount: number;
+  /** Re-opens the form on the same row. */
+  onEdit: () => void;
+  /** True once they have changed the answer at least once. */
+  isUpdated: boolean;
+};
+
+export type RsvpPhotoPickerProps = {
+  photoFile: File | null;
+  /** Url of the photo already stored for this answer, shown until they replace it. */
+  storedPhotoUrl: string | null;
+  onPick: (photoFile: File | null) => void;
+  /** Drops the stored photo, so the update clears `photo_path`. */
+  onRemoveStored: () => void;
+  /** Reports a rejected file so the form's single hint line can say why. */
+  onReject: (hint: string) => void;
+};
+
+export type RsvpGuestStepperProps = {
+  guestCount: number;
+  onChange: (guestCount: number) => void;
+};
+
+/* ── /coming dashboard ──────────────────────────────────────────────────────── */
+
+/** One row of `rsvp_responses`, snake_case as Postgres hands it over. */
+export type RsvpResponseRow = {
+  id: string;
+  created_at: string;
+  updated_at: string | null;
+  guest_name: string;
+  is_attending: boolean;
+  guest_count: number;
+  message: string | null;
+  photo_path: string | null;
+};
+
+export type RsvpFeedResult = { status: "ok"; responses: RsvpResponseRow[] } | { status: "unavailable" };
+
+/** The numbers across the top, all derived from the rows in one pass. */
+export type RsvpAnalytics = {
+  acceptedCount: number;
+  declinedCount: number;
+  responseCount: number;
+  /** Everyone a "yes" brings, the person answering included. */
+  totalPeople: number;
+  messageCount: number;
+  photoCount: number;
+};
+
+export type RsvpFeedStore = {
+  responses: RsvpResponseRow[];
+  isLoading: boolean;
+  /** The store could not be read — same failure the RSVP form reports. */
+  isUnavailable: boolean;
+  load: () => Promise<void>;
+};
+
+export type StatCardProps = {
+  label: string;
+  value: number;
+  /** Small line under the number, e.g. what it counts. */
+  caption?: string;
+  /** The two headline cards read louder than the strip underneath. */
+  tone: "accepted" | "declined" | "neutral";
+};
+
+export type GuestCardProps = {
+  response: RsvpResponseRow;
+  isOpen: boolean;
+  onToggle: () => void;
+};
+
+/** Which answers the list is showing. */
+export type ComingFilter = "all" | "yes" | "no";
