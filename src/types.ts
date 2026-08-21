@@ -290,3 +290,11 @@ export type ComingAuthStore = {
   signIn: (username: string, password: string) => Promise<void>;
   signOut: () => void;
 };
+
+/* ── background music ───────────────────────────────────────────────────────── */
+
+/**
+ * playing → song is running, disc turning
+ * muted   → they turned it off, or the browser refused to autoplay it
+ */
+export type MusicState = "playing" | "muted";

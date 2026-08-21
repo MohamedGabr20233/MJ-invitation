@@ -66,3 +66,17 @@ export const RSVP_MAINTENANCE_AR = {
 
 /** Remembers a sent RSVP across reloads, so the success card comes back. */
 export const RSVP_STORAGE_KEY = "rsvp:submitted";
+
+/**
+ * The song behind the site. Audio-only remux of the source clip in
+ * public/voice — the aac track copied out of the mp4, no re-encode, so it is
+ * 191 KB against the video's 2 MB and the quality is bit-identical.
+ */
+export const BACKGROUND_MUSIC = {
+  src: "/voice/ana-esht-sneen.m4a",
+  /** Under a wedding video's own audio, so the two never fight. */
+  volume: 0.55,
+};
+
+/** Remembers a muted song, so a reload does not start it up again. */
+export const MUSIC_STORAGE_KEY = "music:muted";

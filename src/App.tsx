@@ -1,5 +1,6 @@
 import ComingPage from "./coming/ComingPage";
 import InvitationGate from "./components/gate/InvitationGate";
+import MusicToggle from "./components/ui/MusicToggle";
 import WeddingSite from "./site/WeddingSite";
 
 /**
@@ -13,11 +14,18 @@ const App = () => {
   if (isComingRoute) return <ComingPage />;
 
   return (
-    <main className="min-h-svh w-full bg-surface-alt">
-      <InvitationGate>
-        <WeddingSite />
-      </InvitationGate>
-    </main>
+    <>
+      <main className="min-h-svh w-full bg-surface-alt">
+        <InvitationGate>
+          <WeddingSite />
+        </InvitationGate>
+      </main>
+
+      {/* Outside the gate on purpose: the reveal puts a transform on the site
+          column, and a `fixed` child of a transformed element anchors to that
+          element instead of the viewport. */}
+      <MusicToggle />
+    </>
   );
 };
 

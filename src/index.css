@@ -456,6 +456,32 @@ html {
   }
 }
 
+/* ── background music toggle ─────────────────────────────────────────────────
+   The disc turns while the song plays and holds still when it is muted, so the
+   button reports its own state without a second indicator. One transform-only
+   animation on one small element — it never touches layout or paint, so it
+   cannot cost a frame anywhere else on the page. */
+
+@keyframes music-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.music-disc {
+  animation: music-spin 6s linear infinite;
+}
+
+/* Paused rather than removed: the disc keeps the angle it stopped at, so
+   unmuting picks the rotation back up instead of snapping to zero. */
+.music-disc-paused {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   .gate-loader-out,
@@ -468,7 +494,8 @@ html {
   .gate-site-in,
   .gate-seal-pulse,
   .gate-hint-in,
-  .gate-hint-out {
+  .gate-hint-out,
+  .music-disc {
     animation: none !important;
   }
 
