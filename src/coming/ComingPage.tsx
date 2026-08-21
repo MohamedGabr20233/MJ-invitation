@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader2, LogOut, RefreshCw } from "lucide-react";
 
 import { COUPLES_NAMES, RSVP_MAINTENANCE_AR } from "../constants";
+import { useComingAuthStore } from "../store/comingAuthStore";
 import { useRsvpFeedStore } from "../store/rsvpFeedStore";
 import type { ComingFilter, RsvpAnalytics, RsvpResponseRow } from "../types";
+import ComingLogin from "./ComingLogin";
 import GuestCard from "./GuestCard";
 import StatCard from "./StatCard";
 
@@ -32,10 +34,15 @@ const analyseResponses = (responses: RsvpResponseRow[]): RsvpAnalytics =>
  * `/coming` — the guest list behind the RSVP form: the counts, then a card per
  * answer that opens to the message and photo.
  *
- * Public on purpose, and that is the whole security model: anyone who loads
- * this page reads every name, note and picture.
+ * Sits behind the sign-in in lib/comingAuth, which is a courtesy lock, not a
+ * wall: the check runs in the visitor's own browser and the anon key that reads
+ * these rows ships in the bundle either way. Anything stronger has to move to
+ * Supabase Auth with an RLS select policy for the authenticated role.
  */
 const ComingPage = () => {
+  const isAuthenticated = useComingAuthStore((state) => state.isAuthenticated);
+  const signOut = useComingAuthStore((state) => state.signOut);
+
   const responses = useRsvpFeedStore((state) => state.responses);
   const isLoading = useRsvpFeedStore((state) => state.isLoading);
   const isUnavailable = useRsvpFeedStore((state) => state.isUnavailable);
@@ -46,9 +53,12 @@ const ComingPage = () => {
   const [openResponseId, setOpenResponseId] = useState<string | null>(null);
 
   useEffect(() => {
-    void loadResponses();
-    // Once, on open — the refresh button covers everything after that.
-  }, [loadResponses]);
+    // Nothing is fetched until they are in, so a stranger never pulls the rows.
+    if (isAuthenticated) void loadResponses();
+    // Once, on sign-in — the refresh button covers everything after that.
+  }, [isAuthenticated, loadResponses]);
+
+  if (!isAuthenticated) return <ComingLogin />;
 
   const analytics = analyseResponses(responses);
 
@@ -56,11 +66,20 @@ const ComingPage = () => {
 
   return (
     <div className="mx-auto min-h-dvh w-full bg-surface px-4 pb-10 md:max-w-150">
-      <header className="pt-8 pb-6 text-center">
+      <header className="relative pt-8 pb-6 text-center">
         <p className="font-sans text-[0.625rem] uppercase tracking-[0.3em] text-secondary-dark">who is coming</p>
         <h1 className="mt-1 font-alex text-5xl text-primary">
           {COUPLES_NAMES.MALE} &amp; {COUPLES_NAMES.FEMALE}
         </h1>
+
+        <button
+          type="button"
+          onClick={signOut}
+          aria-label="Sign out"
+          className="absolute right-0 top-8 grid size-9 place-items-center rounded-full border-2 border-secondary-light bg-surface-raised text-secondary-dark transition-transform duration-200 active:scale-90"
+        >
+          <LogOut className="size-4" />
+        </button>
       </header>
 
       {/* the two that matter, big */}

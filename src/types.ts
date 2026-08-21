@@ -272,3 +272,21 @@ export type GuestCardProps = {
 
 /** Which answers the list is showing. */
 export type ComingFilter = "all" | "yes" | "no";
+
+/* ── /coming sign-in ────────────────────────────────────────────────────────── */
+
+/**
+ * idle       → form up, nothing tried yet
+ * checking   → hashing and comparing
+ * rejected   → wrong username or password
+ * unconfigured → the build has no credentials, so nobody can ever get in
+ */
+export type ComingAuthStatus = "idle" | "checking" | "rejected" | "unconfigured";
+
+export type ComingAuthStore = {
+  /** True while a sign-in from this browser is still inside its 12 hours. */
+  isAuthenticated: boolean;
+  status: ComingAuthStatus;
+  signIn: (username: string, password: string) => Promise<void>;
+  signOut: () => void;
+};
