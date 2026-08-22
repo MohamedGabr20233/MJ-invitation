@@ -83,9 +83,9 @@ const Content = () => {
 
       <div className="reveal pt-20 overflow-hidden   text-center mb-10 font-manrope text-on-media tracking-widest">
         <div className="opacity-0   scrollAnimation translate-y-4">
-          <p> Scroll Down </p>
+          <p className="text-2xl font-cormorant font-bold"> Scroll Down </p>
           {/* arrow down button */}
-          <MoveDown className="text-center w-full mt-4 animate-bounce" />
+          <MoveDown className="text-center w-full mt-7 animate-bounce size-10" />
         </div>
       </div>
     </section>
