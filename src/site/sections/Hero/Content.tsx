@@ -50,7 +50,7 @@ const Content = () => {
         <span className="text-4xl mb-5  translate-y-5 opacity-0" id="And">
           &
         </span>
-        <p className="nameAnimate text-[5.8rem] overflow-hidden  tracking-widest translate-y-10 opacity-0">{FEMALE}</p>
+        <p className="nameAnimate text-[8rem] overflow-hidden  tracking-widest translate-y-10 opacity-0">{FEMALE}</p>
       </h1>
 
       <p ref={inviteRef} className="uppercase font-manrope text-base tracking-[.3rem] text-on-media/90 pt-6 text-center leading-6  max-w-98 ">

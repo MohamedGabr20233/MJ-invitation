@@ -21,11 +21,6 @@ const GameCard = ({ className, backImage, alt, flipped, turns, matched = false, 
       // z-index belongs on the wrapper — the card is inside its own stacking context.
       if (flipped) tl.set(warpRef.current, { zIndex: 50 });
 
-      // The two shadows below are the literal twins of `--shadow-card-lift` and
-      // `--shadow-card` in index.css. They stay literals because GSAP has to
-      // parse the color numerically to interpolate it — an unresolved `var()`
-      // either aborts the color tween or passes through unanimated. Keep the
-      // strings in step with the tokens by hand.
       tl.to(cardRef.current, { rotateY: rotation, duration, ease: flipped ? "power2.inOut" : "power2.out" }, 0)
         // Comes toward the viewer through the turn, then settles back.
         .to(cardRef.current, { z: 140, scale: 1.08, boxShadow: "0px 26px 44px rgba(0,0,0,0.42)", duration: duration / 2, ease: "power2.out" }, 0)
@@ -36,14 +31,10 @@ const GameCard = ({ className, backImage, alt, flipped, turns, matched = false, 
     },
     { dependencies: [rotation] },
   );
-
   return (
     <div ref={warpRef} onClick={onSelect} className={className || "card-wrap relative rounded-xl w-1/3 h-60 min-w-45 perspective-distant px-2"}>
       {/* the card — GSAP owns its transform, so no `transition-transform` to fight over it */}
-      <div
-        ref={cardRef}
-        className={`relative h-60 w-full cursor-pointer transform-3d will-change-transform rounded-xl shadow-card ${matched ? "ring-2 ring-highlight/80" : ""}`}
-      >
+      <div ref={cardRef} className={`relative h-60 w-full cursor-pointer transform-3d will-change-transform rounded-xl shadow-card ${matched ? "ring-2 ring-highlight/80" : ""}`}>
         {/* the front */}
         <div className="absolute inset-0 backface-hidden">
           <img
@@ -51,13 +42,19 @@ const GameCard = ({ className, backImage, alt, flipped, turns, matched = false, 
             srcSet={cardSrcSet("/cards/rapunzel-play-card")}
             sizes={`${CARD_WIDTH}px`}
             alt="play card"
-            className="h-60 w-full rounded-xl object-cover"
+            className={`h-60 w-full rounded-xl object-cover `}
           />
         </div>
 
         {/* the back */}
-        <div className="absolute inset-0 backface-hidden transform-[rotateY(180deg)]">
-          <img src={`${backImage}-${CARD_WIDTH}.webp`} srcSet={cardSrcSet(backImage)} sizes={`${CARD_WIDTH}px`} alt={alt} className="h-60 w-full rounded-xl object-cover" />
+        <div className="absolute inset-0 backface-hidden overflow-hidden transform-[rotateY(180deg)]  rounded-xl ">
+          <img
+            src={`${backImage}-${CARD_WIDTH}.webp`}
+            srcSet={cardSrcSet(backImage)}
+            sizes={`${CARD_WIDTH}px`}
+            alt={alt}
+            className={`h-60 w-full rounded-xl object-cover ${alt.includes("bride") && "scale-110 pt-3"}`}
+          />
         </div>
       </div>
     </div>
