@@ -53,7 +53,7 @@ const GameCard = ({ className, backImage, alt, flipped, turns, matched = false, 
             srcSet={cardSrcSet(backImage)}
             sizes={`${CARD_WIDTH}px`}
             alt={alt}
-            className={`h-60 w-full rounded-xl object-cover ${alt.includes("bride") && "scale-110 pt-3"}`}
+            className={`h-60 w-full rounded-xl object-cover ${alt.includes("bride") && "scale-180 pt-12"}`}
           />
         </div>
       </div>
