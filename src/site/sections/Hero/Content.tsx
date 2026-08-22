@@ -4,6 +4,7 @@ import InviteDate from "./InviteDate";
 import { useRef } from "react";
 import { gsap, useGSAP, SplitText } from "../../../lib/gsap";
 import { useIsSiteVisible } from "../../../store/gateStore";
+import { MoveDown } from "lucide-react";
 
 const Content = () => {
   const { MALE, FEMALE } = COUPLES_NAMES;
@@ -84,7 +85,7 @@ const Content = () => {
         <div className="opacity-0   scrollAnimation translate-y-4">
           <p> Scroll Down </p>
           {/* arrow down button */}
-          <span className="rotate-90 animate-pulse  text-2xl block"> &gt; </span>
+          <MoveDown className="text-center w-full mt-4 animate-bounce" />
         </div>
       </div>
     </section>
