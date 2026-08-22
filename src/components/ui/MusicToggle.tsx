@@ -87,12 +87,12 @@ const MusicToggle = () => {
         onClick={toggle}
         aria-label={isPlaying ? "Mute the music" : "Play the music"}
         aria-pressed={isPlaying}
-        className="fixed bottom-5 right-5 z-50 grid size-12 place-items-center rounded-full border-2 border-secondary bg-primary text-on-media shadow-card transition-transform duration-200 active:scale-90"
+        className="music-in fixed bottom-5 right-5 z-50 grid size-17 place-items-center rounded-full border-2 border-secondary bg-primary text-on-media shadow-card transition-transform duration-200 active:scale-90"
       >
         {/* Only the icon turns. The button keeps its box, so the tap target
             never moves and nothing around it is asked to re-layout. */}
         <span aria-hidden="true" className={`music-disc grid place-items-center ${isPlaying ? "" : "music-disc-paused"}`}>
-          {isPlaying ? <Music className="size-5" /> : <VolumeX className="size-5" />}
+          {isPlaying ? <Music className="size-7" /> : <VolumeX className="size-7" />}
         </span>
       </button>
     </>

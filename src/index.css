@@ -482,6 +482,13 @@ html {
   animation-play-state: paused;
 }
 
+/* Held back for a second so the button arrives after the envelope is done
+   opening, not on top of it. `both` keeps it at opacity 0 through the delay —
+   without it the button would flash in and then fade. */
+.music-in {
+  animation: gate-fade-in 0.5s ease-out 1s both;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   .gate-loader-out,
@@ -495,7 +502,8 @@ html {
   .gate-seal-pulse,
   .gate-hint-in,
   .gate-hint-out,
-  .music-disc {
+  .music-disc,
+  .music-in {
     animation: none !important;
   }
 
