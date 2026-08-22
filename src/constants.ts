@@ -70,10 +70,10 @@ export const RSVP_STORAGE_KEY = "rsvp:submitted";
 /**
  * The song behind the site. Audio-only remux of the source clip in
  * public/voice — the aac track copied out of the mp4, no re-encode, so it is
- * 191 KB against the video's 2 MB and the quality is bit-identical.
+ * 783 KB against the video's 2 MB and the quality is bit-identical.
  */
 export const BACKGROUND_MUSIC = {
-  src: "/voice/ana-esht-sneen.m4a",
+  src: "/voice/ala-shate-el-hawa.m4a",
   /** Under a wedding video's own audio, so the two never fight. */
   volume: 0.55,
 };
